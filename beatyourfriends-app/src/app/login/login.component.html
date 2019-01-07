@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+  </head>
+  <body>
+    <header><strong>Beat your Friends</strong></header>
+    <div class="login">
+      <h1>Login</h1>
+      <form method="POST" action="/api/server/login.js">
+      <p><label for="email">E-Mail Adresse</label><br>
+        <input type="email" id="username" [(ngModel)]="login.email" [ngModelOptions]="{standalone: true}" required></p>
+      <p><label for="password">Passwort</label><br>
+        <input type="password" id="password" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}" required></p>
+      <button id="login" type="submit" (click)="getUserLogged()">Anmelden</button>
+      <button id="pw_fg" type="submit">Passwort vergessen</button>
+    </form>
+    </div>
+    <footer></footer>
+  </body>
+</html>
+
+

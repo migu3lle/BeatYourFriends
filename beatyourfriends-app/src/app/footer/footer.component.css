@@ -1,0 +1,39 @@
+footer {
+    background-color: teal;
+    color: white;
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+  }
+  
+  li {
+    display: inline;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
+  ul {
+    margin-left: -15px;
+    text-align: center;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  button {
+      color: white;
+      
+      border: none;
+      font-family: "Open Sans", sans-serif;
+      font-size: 18px;
+      background-color: darkslategray;
+      color: white;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+  }

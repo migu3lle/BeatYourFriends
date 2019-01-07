@@ -1,0 +1,12 @@
+{
+    "database": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "db": "beatyourfriends"
+    },
+    "server": {
+        "host": "localhost",
+        "port": 3000
+    }
+}

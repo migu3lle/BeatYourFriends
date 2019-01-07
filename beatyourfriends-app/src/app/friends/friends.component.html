@@ -1,0 +1,12 @@
+<head> <link rel="stylesheet" href="/src/app/app.component.css"></head>
+<body>
+  <header><strong>Beat your Friends</strong></header>
+  <div class="friends">
+  <h1>Deine Freunde</h1>
+  <p>Wähle, um das Spiel zu starten</p>
+<div *ngFor="let use of users">
+  <a [routerLink]="['/users', use.id]" style="color:black"><span class="badge badge-dark">{{use.id}}</span> -> {{ use.firstname }}</a>
+</div>
+  </div>
+<app-footer></app-footer>
+  </body>
