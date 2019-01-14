@@ -43,7 +43,7 @@ console.log(token);
     let response ={firstname: name, lastname: lastname, token:token};
     res.status(200).json(response);
     
-    db.query(dbinstert, [userid, token], (error, results)=> {
+    _db.query(dbinstert, [userid, token], (error, results)=> {
     if(error){
         console.log("Error while db insert query.");
     }
