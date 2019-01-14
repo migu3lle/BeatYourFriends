@@ -25,9 +25,12 @@ app.use(function(req, res, next) {
 
 var router = express.Router();
 router.get('/', function(req, res) {
-  res.json({mesage: 'Welcome to module api'});
+  res.json({message: 'Welcome to module api'});
 });
-router.post('/login', login.login);
+app.use('', router);
+
+
+router.post('/login/:email', login.login);
 app.use('login', router);
 
 router.get('/users', controller.findAll);

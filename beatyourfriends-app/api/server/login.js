@@ -26,7 +26,7 @@ const crypto = require('crypto');
     let userid = results[0].id;
     let name = results[0].firstname;
     let lastname = results[0].lastname;
-    console.log(result[0]);
+    console.log(results[0]);
     
     const token = crypto.createHmac('sha256', userid.toString())
     .update(secret.toString())
