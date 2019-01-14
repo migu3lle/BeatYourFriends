@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuardService as AuthGuard } from './auth-gard.service';
 import { ProfilComponent } from './profil/profil.component';
 import { FriendsComponent} from './friends/friends.component';
+import { GameComponent} from './game/game.component';
 import { CanActivate } from '@angular/router/src/utils/preactivation';
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'dashboard', component: ProfilComponent, canActivate: [AuthGuard]},
   {path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]},
   {path: 'profil', component: ProfilComponent, canActivate: [AuthGuard] },
+  {path: 'game', component: GameComponent, canActivate: [AuthGuard] },
   {path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {path: 'users/:id', component: ProfilComponent,},
 ];

@@ -42,6 +42,10 @@ app.use('users', router);
 router.delete('/users/:id', controller.delete);
 app.use('users', router);
 
+//Used for creating a new game for specific user
+router.put('/game/:id', controller.createGame);
+app.use('game', router);
+
 /*app.route('/users').get('/users', controller.findAll);
 app.route('/users/:id').get('/users/:userId', controller.findBId);
 app.route('/users/:id').put('/users', controller.update);

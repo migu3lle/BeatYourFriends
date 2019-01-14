@@ -10,6 +10,7 @@ import { ProfilComponent } from './profil/profil.component';
 import { UsersComponent } from './users/users.component';
 import { FooterComponent } from './footer/footer.component';
 import { FriendsComponent } from './friends/friends.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FriendsComponent } from './friends/friends.component';
     UsersComponent,
     FooterComponent,
     FriendsComponent,
+    GameComponent,
   ],
   imports: [
     BrowserModule,
