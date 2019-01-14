@@ -4,8 +4,8 @@
   <div class="friends">
   <h1>Deine Freunde</h1>
   <p>Wähle, um das Spiel zu starten</p>
-<div *ngFor="let user of users">
-  <a [routerLink]="['/game']" style="color:black"><span class="badge badge-dark">{{user.id}}</span> -> {{ user.firstname }}</a>
+<div *ngFor="let user of users" (click)="requestNewGame()">
+  <a style="color:black"><span class="badge badge-dark">{{user.id}}</span> -> {{ user.firstname }}</a>
 </div>
   </div>
 <app-footer></app-footer>

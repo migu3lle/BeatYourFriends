@@ -13,6 +13,7 @@ const routes: Routes = [
   {path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]},
   {path: 'profil', component: ProfilComponent, canActivate: [AuthGuard] },
   {path: 'game', component: GameComponent, canActivate: [AuthGuard] },
+  {path: 'game/:id', component: GameComponent, canActivate: [AuthGuard] },
   {path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {path: 'users/:id', component: ProfilComponent,},
 ];

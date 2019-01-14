@@ -11,9 +11,9 @@ export class GameService {
 
   constructor(private http: HttpClient) { }
 
-  createGameForUser(user: User): Observable<number> {
+  createGameForUser(token: String): Observable<number> {
     //Generate random game ID and send to server to be stored in database
     let gameId = Math.floor(Math.random() * (999999 - 9999) + 9999);
-    return this.http.put<number>(this.gameUrl + gameId, user);
+    return this.http.put<number>(this.gameUrl + gameId, token);
   }
 }

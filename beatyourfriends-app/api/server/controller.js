@@ -75,7 +75,6 @@ exports.delete = (req, res) => {
 exports.createGame = (req, res) => {
 	const _db = getDb();
 	console.log(req.params);
-	console.log(req.params.id);
 	const id = req.params.id;
-	res.status(200).json({message: "Received request to generate new game"});
+	res.status(200).json(req.params.id);
 }
