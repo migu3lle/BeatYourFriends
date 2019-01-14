@@ -19,7 +19,7 @@ export class LoginService {
 
   doLogin(username: string, password: string) : Observable<User> {
 
-   const loginUrl = 'http://localhost:3000/login/' + username;
+   const loginUrl = 'http://localhost:4200/login/' + username;
 
   return this.http.post<User>(loginUrl, {email: username, pass: password})
   /*.pipe(
