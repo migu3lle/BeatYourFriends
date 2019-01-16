@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
-import { Observable, throwError, empty } from 'rxjs';
-import { Router, CanActivate } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { catchError, retry } from 'rxjs/operators';
-import { stringify } from '@angular/core/src/util';
 import { BrowserStorageService } from './storage.service';
 
 
@@ -17,17 +14,30 @@ export class LoginService {
   constructor(private router: Router, private http: HttpClient, private storage: BrowserStorageService) {
 }
 
-  doLogin(username: string, password: string) : Observable<User> {
+   //login
+  doLogin(username: string, password: string) {
 
-   const loginUrl = 'http://localhost:3000/login/' + username;
+   const loginUrl = 'http://localhost:3000/api/loginroutes';
+  
+  // post to db
+  this.http.post<User>(loginUrl, {email: username, pass: password})
+  .subscribe(result => {
+    this.user = result;
 
-   
-  return this.http.post<User>(loginUrl, {email: username, pass: password})
-  /*.pipe(
-     catchError(this.handleError('doLogin', username))
-  );*/}
+    //navigate to dashboar and set session storage
+    this.router.navigate(['/dashboard']);
+    this.storage.set('token', JSON.stringify(this.user));
+    let email = this.user.email;
+    this.storage.set('email', email);
+    let first = this.user.firstname;
+    this.storage.set('firstname', first);    
+    let last = this.user.lastname;
+    this.storage.set('lastname', last);
+  },  error => {this.handleError;
+  });
+}
 
-
+    //logout
   doLogout(): void {
     this.storage.remove('token');
     this.router.navigate(['/login']);
@@ -35,7 +45,6 @@ export class LoginService {
 
 /**
  * Handle Http operation that failed.
- * Let the app continue.
  * @param operation - name of the operation that failed
  * @param result - optional value to return as the observable result
  */
