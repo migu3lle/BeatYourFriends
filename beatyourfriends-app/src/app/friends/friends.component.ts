@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
+import { BrowserStorageService } from '../storage.service';
 
 @Component({
   selector: 'app-friends',
@@ -10,20 +11,32 @@ import { User } from '../user';
 export class FriendsComponent implements OnInit {
 
   users: User[]; 
+  shownUsers: User[]; 
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private storgageService: BrowserStorageService) { }
 
   ngOnInit() {
     this.getAllUsers();
   }
 
   getAllUsers() {
+
+    //fetchh from db
     return this.userService.getAllUsers()
-               .subscribe(
-                 users => {
-                  console.log(users);
-                  this.users = users
-                 }
-                );
- }
+    .subscribe(
+      users => {
+        this.users = users
+        
+        let mail = this.storgageService.get('email');
+        
+        //check for current logged user to not display
+        for (let i = 0; i < this.users.length; i++) {
+          if (this.users[i].email === mail) {              
+              this.users.splice(i,1);
+              this.shownUsers = this.users;
+          }
+        }
+      }
+    );
+  }
 }
