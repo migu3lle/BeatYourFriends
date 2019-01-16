@@ -24,9 +24,8 @@ footer {
     text-decoration: none;
   }
 
-  button {
+  .footer button {
       color: white;
-      
       border: none;
       font-family: "Open Sans", sans-serif;
       font-size: 18px;
