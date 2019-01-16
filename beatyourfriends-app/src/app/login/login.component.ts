@@ -8,34 +8,29 @@ import { BrowserStorageService } from '../storage.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  user: User = new User;
+
+  User = new User;
   login: Loginform = {
     email: '',
     password: ''
   };
+  
   constructor(private loginService: LoginService, private router: Router, private storage: BrowserStorageService) {   }
 
   ngOnInit() {
+    //test if user is current logged in
     const user = this.storage.get('token');
     if (user !== null && user !== undefined) {
       this.router.navigate(['dashboard']);
-      this.storage.set('token', JSON.stringify(this.user));
     } 
   }
     
-
+//login
 getUserLogged(): void {
 this.loginService.doLogin(this.login.email, this.login.password)
-    .subscribe(result => {
-      console.log('yes');
-      this.user = result;
-      this.router.navigate(['dashboard']);
-      this.storage.set('token', JSON.stringify(this.user));
-    },  error => {console.log(this.user);
-    });
 
   }
 
