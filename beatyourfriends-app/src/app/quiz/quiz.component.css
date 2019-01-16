@@ -1,0 +1,70 @@
+/* Application-wide Styles */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+body {
+  background-color: white;
+  font-family: "Open Sans", sans-serif;
+  padding: 0px;
+  font-size: 18px;
+  margin: 0px;
+  color: #444;
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.header {
+    background-color: teal;
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+  }
+
+.quiz {
+    margin: 10px;
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 20px;
+  }
+  
+  .answerContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+.answer {
+    margin: 10px;
+    background-color: teal;
+    opacity: 0.5;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+
+@media only screen and (min-width: 600px) {
+
+    .answer {
+      width: 20%;
+      height: 100px;
+    }
+  }
+
+@media only screen and (max-width: 600px) {
+  
+    .answerContainer {
+      flex-direction: column;
+    }
+    
+    .quiz {
+      margin-top: 40px;
+    }
+  }
