@@ -1,5 +1,4 @@
-import { EmailValidator } from '@angular/forms';
-
+//user model
 export class User {
     userid: number;
     email: string;
@@ -7,7 +6,4 @@ export class User {
     firstname: string;
     lastname: string;
     token: string;
-    test(): void {
-        console.log(this.userid);
-    }
 }
