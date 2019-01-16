@@ -34,9 +34,11 @@ export class FriendsComponent implements OnInit {
                 );
   }
 
-  requestNewGame(){
+  requestNewGame(id: String){
+    console.log("requesting new game!");
+    console.log(id);
     let token = this.storage.get('token');
-    return this.gameService.createGameForUser(token)
+    return this.gameService.createGameForUser(token, id)
       .subscribe(id => {
         console.log('Received new game id: ' + id);
         this.router.navigate(['game/' + id]);

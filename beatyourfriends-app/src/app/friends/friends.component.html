@@ -4,7 +4,7 @@
   <div class="friends">
   <h1>Deine Freunde</h1>
   <p>Wähle, um das Spiel zu starten</p>
-<div *ngFor="let user of users" (click)="requestNewGame()">
+<div *ngFor="let user of users" (click)="requestNewGame(user.id)">
   <a style="color:black"><span class="badge badge-dark">{{user.id}}</span> -> {{ user.firstname }}</a>
 </div>
   </div>

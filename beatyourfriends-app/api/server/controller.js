@@ -74,7 +74,61 @@ exports.delete = (req, res) => {
 // Creates a game for a specific user
 exports.createGame = (req, res) => {
 	const _db = getDb();
+	console.log(req.body);
 	console.log(req.params);
-	const id = req.params.id;
-	res.status(200).json(req.params.id);
+
+	const gametoken = req.body.gametoken;
+	const obj = JSON.parse(gametoken);
+	const player2id = req.body.player2;
+	console.log("player2id: " +player2id);
+	console.log(obj.token);
+	//console.log(firstname);
+
+
+	let promise = new Promise(function(resolve, reject){
+		const userquery = `
+		SELECT t.userid
+		FROM tokens t
+		WHERE token = ?`;
+		_db.query(userquery, [obj.token], (error, results) => {
+		if (error) {
+			console.log("no user found")
+		} else {
+			let user1id = results[0].userid;
+			console.log("first" + results[0].userid);
+			resolve(user1id);
+		}
+	});
+
+	});
+	
+
+	promise.then(function(user1id){
+		if(user1id != player2id){
+		console.log("second" + user1id);
+		const id = req.params.id;
+		let qtokens = new Array(5);
+		for(let i = 0; i<qtokens.length; i++){
+			qtokens[i] = Math.floor(Math.random()*29+1);
+		}
+		const query = `Insert into games(game_id, player1, player2, fragen) values (?, ?, ?, ?)`;
+		_db.query(query, [id, user1id, player2id, JSON.stringify(qtokens)], (error, results) => {
+		if(error){
+			res.status(400).json({message: "Error"});
+			console.log("game db error");
+		} else{
+			res.status(200).json(req.params.id);
+			console.log("game db success");
+		}
+	})
+		}else{
+			res.status(400).json({message: "Error"});
+		}
+	})
+
+	//res.status(200).json(req.params.id);
+}
+
+exports.getGame = (req, res) => {
+	console.log("game requested");
 }
