@@ -1,0 +1,42 @@
+/* Application-wide Styles */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+body {
+  background-color: white;
+  font-family: "Open Sans", sans-serif;
+  padding: 0px;
+  font-size: 18px;
+  margin: 0px;
+  color: #444;
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.header {
+    background-color: teal;
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+  }
+
+.points {
+margin: 10px;
+text-align: center;
+padding-bottom: 10px;
+margin-top: 30px;
+margin-bottom: 60px;
+}
+
+.points p {
+padding: 10px;
+}
+
+.points span {
+font-size: 30px;
+}
