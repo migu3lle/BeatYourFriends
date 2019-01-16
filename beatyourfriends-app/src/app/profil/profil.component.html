@@ -5,18 +5,16 @@
     <title>Made with Thimble</title>
   </head>
   <body>
-    <header><strong>Beat your Friends</strong></header>
+    <header class="header"><strong>Beat your Friends</strong></header>
 <div class="profil">
   <p><label for="firstname">Vorname</label><br>
-    <input type="text"></p>
-  <p><label for="lastname">Nachname</label><br>
-    <input type="text"></p>
-  <p><label for="email">Mail</label><br>
-    <input type="email"></p>
-  <p><label for="password">Passwort</label><br>
-    <input type="password"></p>
-  <button type="submit">Profil update</button>
-  <button type="reset">Profil löschen</button>
+    <input type="text" id="first" [(ngModel)]="shownUser.firstname" (change)="bStorage()"></p>
+  <p><label for="lastname" id="last">Nachname</label><br>
+    <input type="text"  [(ngModel)]="shownUser.lastname" (change)="bStorage()"></p>
+  <p><label for="email" id="mail">Mail</label><br>
+    <input type="email" [(ngModel)]="shownUser.email" (change)="bStorage()"></p>
+  <button type="submit" (click)="update()">Profil update</button>
+  <button type="reset" (click)="delete()">Profil löschen</button>
     </div><app-footer></app-footer>
   </body>
 </html>
