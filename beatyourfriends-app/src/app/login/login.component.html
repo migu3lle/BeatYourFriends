@@ -5,16 +5,16 @@
     <title>Login</title>
   </head>
   <body>
-    <header><strong>Beat your Friends</strong></header>
+    <header class="header"><strong>Beat your Friends</strong></header>
     <div class="login">
       <h1>Login</h1>
-      <form method="POST" action="/api/server/login.js">
+      <form method="POST" auth="./api/loginroutes">
       <p><label for="email">E-Mail Adresse</label><br>
         <input type="email" id="username" [(ngModel)]="login.email" [ngModelOptions]="{standalone: true}" required></p>
       <p><label for="password">Passwort</label><br>
         <input type="password" id="password" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}" required></p>
       <button id="login" type="submit" (click)="getUserLogged()">Anmelden</button>
-      <button id="pw_fg" type="submit">Passwort vergessen</button>
+      <a [routerLink]="['/pwfg']"><button id="pw_fg" type="submit">Passwort vergessen</button></a>
     </form>
     </div>
     <footer></footer>
