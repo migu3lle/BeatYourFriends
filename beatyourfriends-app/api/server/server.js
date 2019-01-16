@@ -1,64 +1,50 @@
-let cfg = require('./config');
-let express = require('express');
-let login = require('./login');
+//File imports
+let cfg = require('./config.json');
+const db = require('./config.db');
 let controller = require('./controller');
-let cors = require('cors');
+
+//Module imports
+let express = require('express');
 const app = express();
+let cors = require('cors');
 const corsOptions = {
   origin: 'http://localhost:4200',
   optionsSuccessStatus: 200
 };
 app.use(express.static('public')); // host public folder
 app.use(cors(corsOptions)); // allow all origins -> Access-Control-Allow-Origin: *
-const db = require('./config.db');
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-/*var mysql = require('mysql');
-var session = require('express-session');
-var path = require('path');*/
+// Header Control
 app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Credentials', true);
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
+  res.header('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
   next();
-});
+} );
 
-var router = express.Router();
-router.get('/', function(req, res) {
+//routes
+app.use('/api', controller);
+
+app.get('/', function(req, res) {
   res.json({message: 'Welcome to module api'});
 });
-app.use('', router);
+app.get('/loginroutes', function(req, res) {
+  res.json({message: 'Welcome to module login post'});
+});
+app.post('/', function(req, res) {
+  res.json({message: 'Welcome to module api post'});
+});
 
-
-router.post('/login/:email', login.login);
-app.use('login', router);
-
-router.get('/users', controller.findAll);
-app.use('users', router);
-router.get('/users/:id', controller.findBId);
-app.use('users', router);
-router.put('/users/:id', controller.update);
-app.use('users', router);
-router.delete('/users/:id', controller.delete);
-app.use('users', router);
-
-/*app.route('/users').get('/users', controller.findAll);
-app.route('/users/:id').get('/users/:userId', controller.findBId);
-app.route('/users/:id').put('/users', controller.update);
-app.route('/users/:id').delete('/users/:userId', controller.delete);*/
-
-
+//DB initialization
 db.initDb.then(() => {
   app.listen(cfg.server.port, () => {
       console.log("Listening on port " + cfg.server.port + "...");
   });
 }, () => {console.log("Failed to connect to DB!")}); 
-
-
-
-  
- /*force: true will drop the table if it already exists
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync with { force: true }');
-});*/
  
+module.exports = app;
