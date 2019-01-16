@@ -15,6 +15,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { PasswordFgComponent } from './password-fg/password-fg.component';
 import { PasswordChangeComponent } from './password-change/password-change.component';
 import { PointsComponent } from './points/points.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PointsComponent } from './points/points.component';
     PasswordFgComponent,
     PasswordChangeComponent,
     PointsComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
