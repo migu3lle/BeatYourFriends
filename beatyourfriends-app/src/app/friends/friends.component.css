@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+body {
+  background-color: white;
+  font-family: "Open Sans", sans-serif;
+  padding: 0px;
+  font-size: 18px;
+  margin: 0px;
+  color: #444;
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
 .friends {
     margin: 10px;
     text-align: center;
@@ -5,4 +19,27 @@
   
   .friends h1 {
     margin-bottom: -15px;
+  }
+
+  .header {
+    background-color: teal;
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+  }
+
+  .choose {
+    padding: 20px;
+ }
+
+  .choose a {
+    color: white;
+    text-decoration: none;
+    background-color: darkslategray;
+    padding: 10px;
   }
