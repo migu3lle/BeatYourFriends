@@ -130,5 +130,44 @@ exports.createGame = (req, res) => {
 }
 
 exports.getGame = (req, res) => {
-	console.log("game requested");
+	const _db = getDb();
+	console.log(req.params.id);
+	let promise = new Promise(function(resolve, reject){
+		const userquery = `
+		SELECT g.fragen
+		FROM games g
+		WHERE game_id = ?`;
+		_db.query(userquery, [req.params.id], (error, results) => {
+		if (error) {
+			console.log("no such game found");
+		} else {
+			let questions = results[0].fragen;
+			console.log(questions);
+			resolve(questions);
+		}
+	});
+
+	});
+
+	promise.then(function(questions){
+		const query= `SELECT * 
+					from fragen 
+					where token = ? OR token = ? OR token = ? OR token = ? OR token = ?`;
+		questions = questions.substring(1, questions.length-1);
+		questionArray = questions.split(",");
+		console.log(questionArray[0]);
+		console.log(questionArray[4]);
+		_db.query(query, [questionArray[0], questionArray[1], questionArray[2], questionArray[3], questionArray[4] ], (error, results) => {
+			if(error){
+				console.log("error");
+			} else{
+				console.log(results);
+				res.status(200).json(results);
+			}
+
+		});
+
+	});
+
+	
 }

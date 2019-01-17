@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './user';
+import { Question } from './question';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,10 @@ export class GameService {
     let obj = {gametoken: token, player2: id};
     console.log(id);
     return this.http.put<number>(this.gameUrl + gameId, obj);
+  }
+
+  getQuestions(gameNr : string): Observable<Question[]>{
+    return this.http.get<Question[]>(this.gameUrl+""+gameNr);
+
   }
 }

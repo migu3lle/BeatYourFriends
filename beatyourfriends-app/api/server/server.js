@@ -46,6 +46,8 @@ app.use('users', router);
 router.put('/game/:id', controller.createGame);
 app.use('game', router);
 
+router.get('/game/:id', controller.getGame);
+
 /*app.route('/users').get('/users', controller.findAll);
 app.route('/users/:id').get('/users/:userId', controller.findBId);
 app.route('/users/:id').put('/users', controller.update);
