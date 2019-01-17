@@ -1,5 +1,4 @@
 //File imports
-let cfg = require('./config');
 const getDb = require('./config.db').getDb;
 const crypto = require('crypto');
 const _db = getDb();
@@ -7,19 +6,17 @@ const _db = getDb();
 //Express import
 const express = require('express');
 const router = express.Router();
-var nodemailer = require('nodemailer');
-const fs = require('fs');
+const nodemailer = require('nodemailer');
+
+
 
 // ----------------> login <--------------------------------//
-router.post('/loginroutes', function (req, res)
-{
-let cfg = require('./config');
-const getDb = require('./config.db').getDb;
 
+router.post('/loginroutes', function (req, res) {
 // --- db query
     let email = req.body.email;
     let pwd = req.body.pass;
-    const query = `
+    let query = `
     SELECT *
     FROM users u, emails e
     WHERE e.email = ? 
@@ -40,7 +37,7 @@ const getDb = require('./config.db').getDb;
     let lastname = results[0].lastname;
 	
 	// --- authorization
-    const token = crypto.createHmac('sha256', userid.toString())
+    let token = crypto.createHmac('sha256', userid.toString())
     .update(secret.toString())
     .digest('hex');
 console.log(token);
@@ -64,11 +61,12 @@ console.log(token);
 });
 
 
+
 // --------------------> Profil Functions <------------------//
+
 // Fetch all Users
 router.get('/user', function (req, res) {
-	const _db = getDb();
-	const query = `
+	let query = `
 	SELECT *
 	FROM users`;
 	_db.query(query, (error, results) => {
@@ -79,10 +77,10 @@ router.get('/user', function (req, res) {
 		}
 	});
 });
+
  
 // Find a User by Mail
 router.get('/user/:email', function (req, res) {
-	const _db = getDb();
 	let email = req.params.email;
 	const query = `
 	SELECT *
@@ -96,17 +94,37 @@ router.get('/user/:email', function (req, res) {
 		}
 	});
 });
+
+
+// Find a Mail by Id
+router.post('/user/:id', function (req, res) {
+	let id = req.params.id;
+	console.log('ID: ' + id);
+	let query = `
+	SELECT email
+	FROM users u
+	WHERE id = ?`;
+	console.log(id);
+	_db.query(query, [id], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			console.log(results[0]);
+			res.status(200).json(results);
+		}
+	});
+});
+
  
 // Update a User
 router.put('/user', function (req, res) {
-	const _db = getDb();
 	let user = req.body;
 	console.log(user);
 	let mail = user.email;
 	let firstn = user.firstname;
 	let lastn = user.lastname;
 
-		const query = `
+		let query = `
 		UPDATE users
 		SET
 		firstname = ?,
@@ -123,14 +141,14 @@ router.put('/user', function (req, res) {
 			}
 		});	
 });
+
  
 // Delete a User by Mail
 router.delete('/user/:email', function (req, res) {
-	const _db = getDb();
-	const email = req.params.email;
+	let email = req.params.email;
 	console.log(email);
 
-	const query = `
+	let query = `
 	DELETE FROM users
 	WHERE email = ?`;
 	_db.query(query, [email], (error, results) => {
@@ -144,14 +162,15 @@ router.delete('/user/:email', function (req, res) {
 });
 
 
+
 //------------------------> Password Reset <------------------//
+
 //check if email exists for a user in a db
 router.get('/reset/:email', function (req, res) {
-	const _db = getDb();
-	const email = req.params.email;
+	let email = req.params.email;
 	console.log(email);
 
-	const query = `
+	let query = `
 	SELECT *
 	FROM users u
 	WHERE email = ?`;
@@ -166,7 +185,7 @@ router.get('/reset/:email', function (req, res) {
 			console.log(data[0].id);
 			let userid =data[0].id;
 
-			const token = crypto.createHmac('sha256', userid.toString())
+			let token = crypto.createHmac('sha256', userid.toString())
 			.update(secret.toString())
 			.digest('hex');
 			console.log(token);
@@ -185,7 +204,7 @@ router.get('/reset/:email', function (req, res) {
 			//send E-Mail
 
 			// --- set my E-Mail as Sender and create transport
-			var transporter = nodemailer.createTransport({
+			let transporter = nodemailer.createTransport({
 				service: 'gmail',
 				auth: {
 					   user: 'chrisi.senger@gmail.com',
@@ -194,7 +213,7 @@ router.get('/reset/:email', function (req, res) {
 			   });
 
 			   // --- set options
-			   const mailOptions = {
+			   let mailOptions = {
 				from: 'chrisi.senger@gmail.com',
 				to: email, // list of receivers
 				subject: 'Beat your Friends Passwort Reset',
@@ -216,14 +235,14 @@ router.get('/reset/:email', function (req, res) {
 	});
 });
 
+
 //check if user can reset password
 router.get('/res/:token', function (req,res ) {
-	const resettoken = req.params.token;
-	const _db = getDb();
+	let resettoken = req.params.token;
 	console.log(resettoken);
 
 	//check if passtoken exists and is still valid
-	const query = `
+	let query = `
 	SELECT expires
 	FROM tokens
 	WHERE passtoken = ?`;
@@ -239,15 +258,15 @@ router.get('/res/:token', function (req,res ) {
 	});
 });
 
+
 //update Password
 router.put('/change', function (req, res) {
-	const _db = getDb();
-	const pass = req.body.password;
-	const email = req.body.email;
+	let pass = req.body.password;
+	let email = req.body.email;
 	console.log(pass);
 
 	//db query
-	const query = `
+	let query = `
 	UPDATE users
 		SET
 		password = ?
@@ -261,13 +280,14 @@ router.put('/change', function (req, res) {
 	});
 });
 
+
+
 // -----------------> Get Points <-------------------//
 
 //get points from db
 router.get('/stat/:email', function (req, res) {
-	const _db = getDb();
 	let email = req.params.email;
-	const query = `
+	let query = `
 	SELECT won, equal, loose
 	FROM emails e
 	WHERE email = ?`;
@@ -278,6 +298,393 @@ router.get('/stat/:email', function (req, res) {
 			res.status(200).json(results);
 		}
 	});
+});
+
+
+
+// ------------------> Game <-------------------//
+
+//get player 2s game status
+router.get('/players/:gameid', function (req, res) {
+		let gameId = req.params.gameid;
+		console.log(gameId);
+		let query = `
+		SELECT player2status
+		FROM game
+		WHERE game_id = ?`;
+		_db.query(query, [gameId], (error, results) => {
+			if (error) {
+				res.status(400).json({message: "Error"});
+			} else {
+				res.status(200).json(results);
+			}
+		});
+});
+
+
+//get player 1s game status
+router.get('/player/:gameid', function (req, res) {
+	let gameId = req.params.gameid;
+	console.log(gameId);
+	let query = `
+	SELECT player1status
+	FROM game
+	WHERE game_id = ?`;
+	_db.query(query, [gameId], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//update game status
+router.put('/player/:gameid', function (req, res) {
+	let gameId = req.body.gameid;
+	let query = `
+	UPDATE game
+	SET player1status CASE WHEN player1status = 0 THEN 1 
+	WHEN player1status = 1 THEN 0
+	WHERE game_id = ?
+	SET player2status CASE WHEN player2status = 0 THEN 1 
+	WHEN player2status = 1 THEN 0
+	WHERE game_id = ?`;
+	_db.query(query, [gameId, gameId], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//get Questions from db
+router.post('/question/:counter', function (req, res) {
+	const counter = req.params.counter;
+	const gamesid = req.body.gameid;
+	console.log(counter);
+
+	//check if table is empty
+	let testquery =`
+	SELECT token
+	FROM playquest
+	WHERE counter = 3`;
+	_db.query(testquery, [counter], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+
+			//if there are no stored questions select questions from fragen
+			if (results[0] === undefined) {
+				console.log('No results');
+				let query = `
+				SELECT Frage, Antwort1, Antwort2, Antwort3, token
+				FROM fragen
+				ORDER BY RAND()
+				LIMIT 1`;
+				_db.query(query, (error, result) => {
+					if (error) {
+						res.status(400).json({message: "Error"});
+					} else {
+						
+						//store to question in playquest table
+						//so that player2 get same questions
+						console.log('Res2: ' + result[0]);
+						let Frage = result[0].Frage;
+						let Antwort1 = result[0].Antwort1;
+						let Antwort2 = result[0].Antwort2;
+						let Antwort3 = result[0].Antwort3;
+						let fragetoken = result[0].token;
+
+						let dbinsertt = `
+						INSERT INTO playquest(id, counter, token, Frage, Antwort1, Antwort2, Antwort3)
+						VALUES  (? , ? , ? , ? , ? , ? , ?)`;
+						_db.query(dbinsertt, [gamesid, counter, fragetoken, Frage, Antwort1, Antwort2, Antwort3], (error, resul) => {
+							if (error) {
+								console.log('error doing insert');
+								res.status(400).json({message: "Error"});
+							} else {res.status(200).json(resul);
+							}
+						});
+
+					res.status(200).json(result);
+					console.log(result);
+				};
+			})
+		} else {
+				//if there are questions in playquest send those to user
+				let savequery =`
+				SELECT Frage, Antwort1, Antwort2, Antwort3, token
+				FROM playquest
+				WHERE counter = ?
+				AND id = ?`;
+				_db.query(savequery, [counter, gamesid], (error, data) => {
+					if (error) {
+						res.status(400).json({message: "Error"});
+					} else {
+						res.status(200).json(data);
+						console.log(data);
+						//delete question from questid
+						let deletequery =`
+						DELETE FROM playquest
+						WHERE id = ?`;
+						_db.query(deletequery, [gamesid], (error, dat) => {
+							if (error) {
+								res.status(400).json({message: "Error"});
+							} else {
+								res.status(200).json({message: 'Dein Profil wurde gelöscht'});
+								console.log('Frage gelöscht')
+							}
+						});
+					}
+				});
+			};
+		};
+	});
+});
+
+
+//get Answer from db
+router.get('/answer/:token', function (req, res) {
+	let token = req.params.token;
+	let query = `
+	SELECT Richtig
+	FROM fragen
+	WHERE token = ?`;
+	_db.query(query,[token], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			console.log('Result: ' + results);
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//increment points from user1
+router.get('/point/:gameid', function (req, res) {
+	let gameId = req.params.gameid;
+	let query = `
+	UPDATE game
+	SET player1points = player1points + 1
+	WHERE game_id = ?`;
+	_db.query(query, [gameId], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//increment points from user2
+router.get('/points/:gameid', function (req, res) {
+	let gameId = req.params.gameid;
+	let query = `
+	UPDATE game
+	SET player2points = player2points + 1
+	WHERE game_id = ?`;
+	_db.query(query, [gameId], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//get winner
+router.post('/winner', function (req, res) {
+	let gameId = req.body.gameid;
+	let query = `
+	SELECT player1points, player2points, player1, player2
+	FROM game
+	WHERE game_id = ?`;
+	_db.query(query, [gameId], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//set player1 as winner
+router.put('/won', function (req, res) {
+	let email1 = req.body.email1;
+	let email2 = req.body.email2;
+	let query = `
+	UPDATE emails
+	SET 
+	won = won + 1
+	WHERE = email = ?
+	SET loose = loose + 1
+	WHERE email = ?`;
+	_db.query(query, [email1, email2], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//set equal
+router.put('/equal', function (req, res) {
+	let email1 = req.body.email1;
+	let email2 = req.body.email2;
+	let query = `
+	UPDATE emails
+	SET 
+	equal = equal + 1
+	WHERE = email = ?
+	SET equal = equal + 1
+	WHERE email = ?`;
+	_db.query(query, [email1, email2], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//set player2 as winner
+router.put('/loose', function (req, res) {
+	let email1 = req.body.email1;
+	let email2 = req.body.email2;
+	let query = `
+	UPDATE emails
+	SET 
+	loose =loose + 1
+	WHERE = email = ?
+	SET won = won + 1
+	WHERE email = ?`;
+	_db.query(query, [email1, email2], (error, results) => {
+		if (error) {
+			res.status(400).json({message: "Error"});
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
+
+
+//check if game already exists
+router.post('/play', function (req, res) {
+let user1 = req.body.user1;
+let gametoken = req.body.gametoken;
+let obj = JSON.parse(gametoken);
+
+let promise = new Promise(function(resolve, reject){
+	//select my userid
+	let userquery = `
+	SELECT userid
+	FROM tokens t
+	WHERE token = ?`;
+	_db.query(userquery, [obj.token], (error, results) => {
+	if (error) {
+		console.log("no user found")
+	} else {
+		let user2id = results[0].userid;
+		console.log("first" + results[0].userid);
+		resolve(user2id);
+	}
+});
+});
+
+//check if player1 and player 2 are not the same
+promise.then(function(user2id){
+if(user2id != user1){
+	console.log("second" + user2id);
+
+//select game_id from table
+let query = `
+SELECT game_id, player1
+FROM game
+WHERE player1 = ?
+AND player2 = ?`;
+_db.query(query, [user1, user2id], (error, result) => {
+if (error) {
+			res.status(400).json({message: "Error"});
+			console.log("game db error");
+		} else{
+			res.status(200).json(result);
+			console.log("game db success");
+		}
+	})
+		} else{
+			res.status(400).json({message: "Error"});
+		}
+	})
+});
+
+
+//store gameId in db and set player status
+router.put('/play/:gameid', function (req, res) {
+	console.log(req.body);
+	console.log(req.params);
+	var gamingid = req.params.gameid;
+
+	let gametoken = req.body.gametoken;
+	let obj = JSON.parse(gametoken);
+	let player2id = req.body.player2;
+	console.log("player2id: " +player2id);
+	console.log(obj.token);
+
+
+	let promise = new Promise(function(resolve, reject){
+		//check if user exists
+		let userquery = `
+		SELECT userid
+		FROM tokens t
+		WHERE token = ?`;
+		_db.query(userquery, [obj.token], (error, results) => {
+		if (error) {
+			console.log("no user found")
+		} else {
+			let user1id = results[0].userid;
+			console.log("first" + results[0].userid);
+			resolve(user1id);
+		}
+	});
+
+	});
+	
+	//check if player1 and player 2 are not the same
+	promise.then(function(user1id){
+		if(user1id != player2id){
+		console.log("second" + user1id);
+
+		//insert values into games
+		let insertquery = `
+		INSERT INTO game(game_id, player1, player2, player1status, player2status, player1points, player2points)
+		VALUES (?, ?, ?, ?, ?, ?, ?)`;
+		_db.query(insertquery, [gamingid, user1id, player2id, 1, 0, 0, 0], (error, results) => {
+		if(error){
+			console.log(gamingid);
+			res.status(400).json({message: "Error"});
+			console.log("game db error");
+		} else{
+			res.status(200).json(user1id);
+			console.log("game db success");
+		}
+	})
+		} else{
+			res.status(400).json({message: "Error"});
+		}
+	})
+
+	res.status(200).json(req.params.id);
 });
 
 module.exports = router;
