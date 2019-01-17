@@ -1,11 +1,11 @@
 <body>
-  <header><strong>Beat your Friends</strong></header>
+  <header class="header"><strong>Beat your Friends</strong></header>
   <div class="quiz">
-  <p id="question">Wann wurde Julius Caesar ermordet?</p>
+  <p id="question">{{questions.question}}</p>
   <div class ="answerContainer">
-    <div class="answer" id="1">765</div>
-    <div class="answer" id="2">345</div>
-    <div class="answer" id="3">755</div>
+    <div class="answer" (click)="getA('1', questions.token)">{{questions.a1}}</div>
+    <div class="answer" (click)="getA('2', questions.token)">{{questions.a2}}</div>
+    <div class="answer" (click)="getA('3', questions.token)">{{questions.a3}}</div>
   </div>
   </div>
 <app-footer></app-footer>
