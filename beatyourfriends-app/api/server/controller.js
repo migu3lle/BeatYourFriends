@@ -43,15 +43,15 @@ router.post('/loginroutes', function (req, res) {
 console.log(token);
      
     let dbinstert = `
-    INSERT INTO tokens(userid, token, expires)
-        VALUES  (? , ?, NOW() + INTERVAL 24 HOUR)`;
+    INSERT INTO tokens(userid, token, passtoken, expires)
+        VALUES  (? , ?, "12345",  NOW() + INTERVAL 24 HOUR)`;
 
     let response ={firstname: name, lastname: lastname, token:token, email: email};
     res.status(200).json(response);
 
     _db.query(dbinstert, [userid, token], (error, results)=> {
     if(error){
-        console.log("Error while db insert query.");
+        console.log("Error while db insert query. test");
     }
 
 });
@@ -684,7 +684,7 @@ router.put('/play/:gameid', function (req, res) {
 		}
 	})
 
-	res.status(200).json(req.params.id);
+	//res.status(200).json(req.params.id);
 });
 
 module.exports = router;

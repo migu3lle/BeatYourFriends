@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { BrowserStorageService } from '../storage.service';
+import { GameService } from '../game.service';
+
 
 @Component({
   selector: 'app-friends',
@@ -13,12 +15,12 @@ export class FriendsComponent implements OnInit {
   users: User[]; 
   shownUsers: User[]; 
 
-  constructor(private userService: UserService, private storgageService: BrowserStorageService) { }
+  constructor(private userService: UserService, private storgageService: BrowserStorageService, private gameService: GameService) { }
 
   ngOnInit() {
     this.getAllUsers();
   }
-
+  
   getAllUsers() {
 
     //fetchh from db
@@ -39,4 +41,18 @@ export class FriendsComponent implements OnInit {
       }
     );
   }
+
+  requestNewGame(id: String){
+    console.log("requesting new game!");
+    console.log(id);
+    let token = this.storgageService.get('token');
+    return this.gameService.createGameForUser(token, id)
+      .subscribe(id => {
+        console.log('Received new game id: ' + id);
+        //this.router.navigate(['game/' + id]);
+      })
+  }
+
+
+
 }

@@ -13,6 +13,7 @@
     "config.json": "0.0.4",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "json-loader": "^0.5.7"
+    "json-loader": "^0.5.7",
+    "nodemailer": "^5.1.1"
   }
 }

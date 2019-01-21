@@ -14,6 +14,7 @@ export class LoginService {
   constructor(private router: Router, private http: HttpClient, private storage: BrowserStorageService) {
 }
 
+  user: User;
    //login
   doLogin(username: string, password: string) {
 
