@@ -343,19 +343,38 @@ router.get('/player/:gameid', function (req, res) {
 //update game status
 router.put('/player/:gameid', function (req, res) {
 	let gameId = req.body.gameid;
-	let query = `
-	UPDATE game
-	SET player1status CASE WHEN player1status = 0 THEN 1 
-	WHEN player1status = 1 THEN 0
-	WHERE game_id = ?
-	SET player2status CASE WHEN player2status = 0 THEN 1 
-	WHEN player2status = 1 THEN 0
-	WHERE game_id = ?`;
-	_db.query(query, [gameId, gameId], (error, results) => {
+	console.log("gameID is: " + gameId);
+	let query1 = `UPDATE game g
+	SET g.player1status = CASE
+	WHEN g.player1status = 0 THEN 1
+	WHEN g.player1status = 1 THEN 0
+	END
+	WHERE g.game_id = ?;
+	`;
+
+
+	let query2 = `UPDATE game g
+	SET g.player2status = CASE
+	WHEN g.player2status = 0 THEN 1
+	WHEN g.player2status = 1 THEN 0
+	END
+	WHERE g.game_id = ?;`;
+	_db.query(query1, [gameId], (error, results) => {
 		if (error) {
+			console.log("error while updating game status"+ error);
 			res.status(400).json({message: "Error"});
 		} else {
-			res.status(200).json(results);
+			console.log("success while updating game status");
+			_db.query(query2, [gameId], (error, results) =>{
+				if(error){
+
+				}else{
+					console.log("updated both players successfully");
+					res.status(200).json({message: "Updated"});
+					
+				}
+			})
+			
 		}
 	});
 });
@@ -364,15 +383,20 @@ router.put('/player/:gameid', function (req, res) {
 //get Questions from db
 router.post('/question/:counter', function (req, res) {
 	const counter = req.params.counter;
-	const gamesid = req.body.gameid;
-	console.log(counter);
+	let gamesid = req.body.gameid;
+	let obj = JSON.parse(req.body.game);
+	gamesid = obj;
+	console.log(obj);
+	console.log(req.body);
+	console.log("Question "+ counter + " requested");
+	console.log("from game "+ gamesid);
 
 	//check if table is empty
 	let testquery =`
 	SELECT token
 	FROM playquest
-	WHERE counter = 3`;
-	_db.query(testquery, [counter], (error, results) => {
+	WHERE counter = ? AND id = ?`;
+	_db.query(testquery, [counter, gamesid], (error, results) => {
 		if (error) {
 			res.status(400).json({message: "Error"});
 		} else {
@@ -387,6 +411,7 @@ router.post('/question/:counter', function (req, res) {
 				LIMIT 1`;
 				_db.query(query, (error, result) => {
 					if (error) {
+						console.log("error selecting question");
 						res.status(400).json({message: "Error"});
 					} else {
 						
@@ -402,15 +427,16 @@ router.post('/question/:counter', function (req, res) {
 						let dbinsertt = `
 						INSERT INTO playquest(id, counter, token, Frage, Antwort1, Antwort2, Antwort3)
 						VALUES  (? , ? , ? , ? , ? , ? , ?)`;
-						_db.query(dbinsertt, [gamesid, counter, fragetoken, Frage, Antwort1, Antwort2, Antwort3], (error, resul) => {
+						_db.query(dbinsertt, [gamesid, counter, fragetoken, Frage, Antwort1, Antwort2, Antwort3], (error, results) => {
 							if (error) {
 								console.log('error doing insert');
 								res.status(400).json({message: "Error"});
-							} else {res.status(200).json(resul);
+							} else {res.status(200).json(result);
+								console.log("successful insertion into playquest "+ result);
 							}
 						});
 
-					res.status(200).json(result);
+					//res.status(200).json(result);
 					console.log(result);
 				};
 			})
@@ -433,9 +459,9 @@ router.post('/question/:counter', function (req, res) {
 						WHERE id = ?`;
 						_db.query(deletequery, [gamesid], (error, dat) => {
 							if (error) {
-								res.status(400).json({message: "Error"});
+								//res.status(400).json({message: "Error"});
 							} else {
-								res.status(200).json({message: 'Dein Profil wurde gelöscht'});
+								//res.status(200).json({message: 'Dein Profil wurde gelöscht'});
 								console.log('Frage gelöscht')
 							}
 						});
@@ -456,6 +482,7 @@ router.get('/answer/:token', function (req, res) {
 	WHERE token = ?`;
 	_db.query(query,[token], (error, results) => {
 		if (error) {
+			console.log("get correct answer error");
 			res.status(400).json({message: "Error"});
 		} else {
 			console.log('Result: ' + results);
@@ -467,6 +494,7 @@ router.get('/answer/:token', function (req, res) {
 
 //increment points from user1
 router.get('/point/:gameid', function (req, res) {
+	console.log("incrementing points from player 1");
 	let gameId = req.params.gameid;
 	let query = `
 	UPDATE game
@@ -475,8 +503,10 @@ router.get('/point/:gameid', function (req, res) {
 	_db.query(query, [gameId], (error, results) => {
 		if (error) {
 			res.status(400).json({message: "Error"});
+			console.log("error while updating points");
 		} else {
 			res.status(200).json(results);
+			console.log("sucess while updating points");
 		}
 	});
 });
@@ -484,6 +514,7 @@ router.get('/point/:gameid', function (req, res) {
 
 //increment points from user2
 router.get('/points/:gameid', function (req, res) {
+	console.log("incrementing points from player 2");
 	let gameId = req.params.gameid;
 	let query = `
 	UPDATE game
@@ -492,8 +523,10 @@ router.get('/points/:gameid', function (req, res) {
 	_db.query(query, [gameId], (error, results) => {
 		if (error) {
 			res.status(400).json({message: "Error"});
+			console.log("error while updating points");
 		} else {
 			res.status(200).json(results);
+			console.log("sucess while updating points");
 		}
 	});
 });
@@ -686,5 +719,57 @@ router.put('/play/:gameid', function (req, res) {
 
 	//res.status(200).json(req.params.id);
 });
+
+router.get('/games/:email', function(req, res){
+	console.log(req.params.email);
+	let email = req.params.email;
+
+	let promise = new Promise(function(resolve, reject){
+		//select my userid
+		let userquery = `SELECT userid 
+		FROM emails WHERE email = ?;`;
+		_db.query(userquery, [email], (error, results) => {
+		if (error) {
+			console.log("no user found")
+			res.status(400).json({message: "ERROR"});
+		} else {
+			let userid = results[0].userid;
+			resolve(userid);
+		}
+	});
+	});
+	
+	promise.then(function(userid){
+		let query = `SELECT * FROM game WHERE player1 = ? or player2 = ?;`;
+		_db.query(query, [userid, userid], (error, results) => {
+			if(error){
+				res.status(400).json({message: "ERROR"});
+			}else{
+				res.status(200).json(results);
+			}
+		})
+	});
+
+
+
+
+});
+
+router.get('/userid/:email', function(req, res){
+	let email = req.params.email;
+	let userquery = `SELECT userid 
+	FROM emails WHERE email = ?;`;
+	_db.query(userquery, [email], (error, results) => {
+	if (error) {
+		console.log("no user found")
+		res.status(400).json({message: "ERROR"});
+	} else {
+		let userid = results[0].userid;
+		res.status(200).json(userid);
+	}
+});
+
+});
+
 
 module.exports = router;

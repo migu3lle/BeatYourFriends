@@ -30,7 +30,9 @@ export class GameService {
 
   //fetch question from api
   getQuestion(counter, gameid) {
-    return this.http.post('http://localhost:3000/api/question/' + counter, gameid);
+    console.log("get question from game " + gameid);
+    let obj = {game: gameid };
+    return this.http.post('http://localhost:3000/api/question/' + counter, obj);
   }
 
   //fetch right answer index from db

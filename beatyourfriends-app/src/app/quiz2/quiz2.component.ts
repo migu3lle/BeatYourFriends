@@ -80,8 +80,10 @@ export class Quiz2Component implements OnInit {
     //change player status
     let player2id = this.storageService.get('player2id');
     this.gameService.updatePlayStat(player2id)
-    .subscribe(() => {});
-    alert('Warte auf Gegner!')
+    .subscribe(() => {
+      this.router.navigate(['game']);
+    });
+    
     // --> SEND NOTIFICATION
   };
   }
@@ -99,7 +101,10 @@ export class Quiz2Component implements OnInit {
         console.log('You get 1 point!');
 
         //get Mails by Id
-          this.pointsService.storePoint2();
+          
+          this.pointsService.storePoint2(index).subscribe(result => {
+            console.log("idk");
+          });
           this.getQ();
       } else {
           this.getQ();

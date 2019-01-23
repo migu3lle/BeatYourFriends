@@ -40,3 +40,7 @@ padding: 10px;
 .points span {
 font-size: 30px;
 }
+
+table, th, td {
+  border: 1px solid black;
+}

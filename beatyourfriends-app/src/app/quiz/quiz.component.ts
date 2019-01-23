@@ -39,7 +39,7 @@ export class QuizComponent implements OnInit {
     //get player 2s game status
     this.gameService.getPlayStat2()
     .subscribe(result => {
-      console.log(result[0].player2status);
+      console.log("player2 status is: " +result[0].player2status);
       let player2Stat = result[0].player2status;
 
 
@@ -64,8 +64,10 @@ export class QuizComponent implements OnInit {
 
     //call game service
     let gameid = this.storageService.get('gameId');
+    console.log("the gameId is: " + gameid);
     this.gameService.getQuestion(this.ind.i, gameid)
     .subscribe(result => {
+      console.log("result: " + result[0]);
       this.questions.question = result[0].Frage;
       this.questions.a1 = result[0].Antwort1;
       this.questions.a2 = result[0].Antwort2;
@@ -79,8 +81,11 @@ export class QuizComponent implements OnInit {
     //change player status
     let player2id = this.storageService.get('player2id');
     this.gameService.updatePlayStat(player2id)
-    .subscribe(() => {});
-    alert('Warte auf Gegner!')
+    .subscribe(() => {
+      console.log("navige to dashboard");
+      this.router.navigate(['game']);
+    });
+   
     // --> SEND NOTIFICATION
   };
   }
@@ -98,7 +103,9 @@ export class QuizComponent implements OnInit {
         console.log('Right');
 
         //get Mails by Id
-          this.pointsService.storePoint1(index);
+          this.pointsService.storePoint1(index).subscribe(result => {
+            console.log("idk");
+          });
           this.getQ();
       } else {
           this.getQ();

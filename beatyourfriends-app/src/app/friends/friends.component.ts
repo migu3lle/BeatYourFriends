@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { BrowserStorageService } from '../storage.service';
 import { GameService } from '../game.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class FriendsComponent implements OnInit {
   users: User[]; 
   shownUsers: User[]; 
 
-  constructor(private userService: UserService, private storgageService: BrowserStorageService, private gameService: GameService) { }
+  constructor(private userService: UserService, private storgageService: BrowserStorageService, private gameService: GameService, private router: Router) { }
 
   ngOnInit() {
     this.getAllUsers();
@@ -49,7 +50,7 @@ export class FriendsComponent implements OnInit {
     return this.gameService.createGameForUser(token, id)
       .subscribe(id => {
         console.log('Received new game id: ' + id);
-        //this.router.navigate(['game/' + id]);
+        this.router.navigate(['quiz']);
       })
   }
 

@@ -2,6 +2,28 @@
   <header class="header"><strong>Beat your Friends</strong></header>
   <div class="points">
   <h1>Deine Spiele</h1>
+  <table>
+      <tr>
+          <th>GameID</th>
+          <th>Player1</th>
+          <th>Player2</th>
+          <th>MyAnsweredQuestion</th> 
+          <th>OponentsAnsweredQuestions</th>
+          <th>MyPoints</th>
+          <th>OponentsPoints</th>
+        </tr>
+    <tr *ngFor="let game of activeGames" (click) = "playGame(game.game_id, game.player1)" class="choose">
+          <td>{{game.game_id}}</td>
+          <td>{{game.player1}}</td>
+          <td>{{game.player2}}</td>
+          <td>{{game.player1status}}</td>
+          <td>{{game.player2status}}</td>
+          <td>{{game.player1points}}</td>
+          <td>{{game.player2points}}</td>
+    </tr>
+  </table>
+
+  
     <p>Du hast<br><span><strong>{{points.won}}x</strong></span><br> gewonnen</p>
     <p>Du hast<br><span><strong>{{points.equal}}x</strong></span><br> unentschieden gespielt</p>
     <p>Du hast<br><span><strong>{{points.loose}}x</strong></span><br> verloren</p></div>
