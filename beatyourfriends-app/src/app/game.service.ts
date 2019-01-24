@@ -84,5 +84,10 @@ export class GameService {
     return this.http.put('http://localhost:3000/api/loose', body);
 
   }
+
+  updateRound(gameId){
+    console.log("requesting a round change, client side");
+    return this.http.put('http://localhost:3000/api/updateRound/' +gameId, {gameid: gameId});
+  }
 }
 

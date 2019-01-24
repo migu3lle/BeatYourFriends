@@ -3,7 +3,7 @@ import { PointsService } from '../points.service';
 import { BrowserStorageService } from '../storage.service';
 import { Game } from '../game';
 import { Router } from '@angular/router';
-import { resolve } from 'dns';
+
 
 @Component({
   selector: 'app-points',

@@ -456,8 +456,8 @@ router.post('/question/:counter', function (req, res) {
 						//delete question from questid
 						let deletequery =`
 						DELETE FROM playquest
-						WHERE id = ?`;
-						_db.query(deletequery, [gamesid], (error, dat) => {
+						WHERE id = ? AND counter = ?`;
+						_db.query(deletequery, [gamesid, counter], (error, dat) => {
 							if (error) {
 								//res.status(400).json({message: "Error"});
 							} else {
@@ -700,9 +700,9 @@ router.put('/play/:gameid', function (req, res) {
 
 		//insert values into games
 		let insertquery = `
-		INSERT INTO game(game_id, player1, player2, player1status, player2status, player1points, player2points)
-		VALUES (?, ?, ?, ?, ?, ?, ?)`;
-		_db.query(insertquery, [gamingid, user1id, player2id, 1, 0, 0, 0], (error, results) => {
+		INSERT INTO game(game_id, player1, player2, player1status, player2status, player1points, player2points, round)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+		_db.query(insertquery, [gamingid, user1id, player2id, 1, 0, 0, 0, 0], (error, results) => {
 		if(error){
 			console.log(gamingid);
 			res.status(400).json({message: "Error"});
@@ -771,5 +771,25 @@ router.get('/userid/:email', function(req, res){
 
 });
 
+
+router.put('/updateRound/:gameid', function(req, res){
+	let gameId = req.body.gameid;
+	console.log(gameId + " requests a round change!");
+	let query =`
+	UPDATE game
+	SET 
+	round = round + 1
+	WHERE game_id = ?`;
+	_db.query(query, [gameId], (error, results) => {
+		if(error){
+			console.log("round errror");
+			res.status(400).json();
+		}else{
+			res.status(200).json();
+			console.log("round success");
+		}
+	});
+
+});
 
 module.exports = router;

@@ -11,6 +11,8 @@
           <th>OponentsAnsweredQuestions</th>
           <th>MyPoints</th>
           <th>OponentsPoints</th>
+          <th>Round</th>
+
         </tr>
     <tr *ngFor="let game of activeGames" (click) = "playGame(game.game_id, game.player1)" class="choose">
           <td>{{game.game_id}}</td>
@@ -20,6 +22,7 @@
           <td>{{game.player2status}}</td>
           <td>{{game.player1points}}</td>
           <td>{{game.player2points}}</td>
+          <td>{{game.round}}</td>
     </tr>
   </table>
 

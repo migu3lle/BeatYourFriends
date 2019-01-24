@@ -45,6 +45,10 @@ export class QuizComponent implements OnInit {
 
       //if player2 is not playing load questions
       if (player2Stat === 0) {
+
+        this.gameService.updateRound(this.storageService.get('gameId')).subscribe(()=>{
+          console.log("round changed - advance");
+        });
         this.ind.o++;
         this.getQ();
 
