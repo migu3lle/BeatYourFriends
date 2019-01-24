@@ -7,5 +7,6 @@ export class Game {
     player2status: number;
     player1points: number;
     player2points: number;
+    round: number;
     
 }
