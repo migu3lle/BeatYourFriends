@@ -18,9 +18,9 @@ router.post('/loginroutes', function (req, res) {
     let pwd = req.body.pass;
     let query = `
     SELECT *
-    FROM users u, emails e
-    WHERE e.email = ? 
-    AND u.password = ?`;
+    FROM users
+    WHERE email = ? 
+    AND password = ?`;
     _db.query(query, [email, pwd], (error, results) => {
 
 		// --- error handling
@@ -679,9 +679,10 @@ router.put('/play/:gameid', function (req, res) {
 		//check if user exists
 		let userquery = `
 		SELECT userid
-		FROM tokens t
+		FROM tokens
 		WHERE token = ?`;
 		_db.query(userquery, [obj.token], (error, results) => {
+			console.log('results: ' + JSON.stringify(results))
 		if (error) {
 			console.log("no user found")
 		} else {
