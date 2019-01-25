@@ -43,4 +43,13 @@ export class PointsService {
       return this.http.get<number>('http://localhost:3000/api/userid/' +email);
 
     }
+
+    //Get Player 2 Status by given GameID
+    getPlayer2StatusByGame(gameId){
+      return this.http.get('http://localhost:3000/api/players/'+ gameId);
+    }
+    //Get Player 1 Status by given GameID
+    getPlayer1StatusByGame(gameId){
+      return this.http.get('http://localhost:3000/api/player/'+ gameId);
+    }
 }
