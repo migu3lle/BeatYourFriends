@@ -16,6 +16,8 @@ import { PasswordFgComponent } from './password-fg/password-fg.component';
 import { PasswordChangeComponent } from './password-change/password-change.component';
 import { PointsComponent } from './points/points.component';
 import { Quiz2Component } from './quiz2/quiz2.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { Quiz2Component } from './quiz2/quiz2.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [User],
   bootstrap: [AppComponent]

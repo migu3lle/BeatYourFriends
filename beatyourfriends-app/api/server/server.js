@@ -8,7 +8,7 @@ let express = require('express');
 const app = express();
 let cors = require('cors');
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: 'http://localhost:8080',
   optionsSuccessStatus: 200
 };
 app.use(express.static('public')); // host public folder

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BrowserStorageService } from './storage.service';
+import { NewsletterService } from './newsletter.service';
 
 
 @Injectable({
@@ -11,8 +12,12 @@ import { BrowserStorageService } from './storage.service';
 })
 export class LoginService {
 
-  constructor(private router: Router, private http: HttpClient, private storage: BrowserStorageService) {
-}
+  constructor(
+    private router: Router, 
+    private http: HttpClient, 
+    private storage: BrowserStorageService,
+    private newsletterService: NewsletterService) {
+  }
 
   user: User;
    //login
@@ -34,6 +39,7 @@ export class LoginService {
     this.storage.set('firstname', first);    
     let last = this.user.lastname;
     this.storage.set('lastname', last);
+    this.newsletterService.addPushSubscriber({sub: this.storage.get('subscription'), userToken: this.user.token}).subscribe()
   },  error => {this.handleError;
   });
 }

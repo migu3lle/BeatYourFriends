@@ -4,7 +4,6 @@ import { User } from '../user';
 import { Router } from '@angular/router';
 import { BrowserStorageService } from '../storage.service';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +17,11 @@ export class LoginComponent implements OnInit {
     password: ''
   };
   
-  constructor(private loginService: LoginService, private router: Router, private storage: BrowserStorageService) {   }
+  constructor(
+    private loginService: LoginService, 
+    private router: Router, 
+    private storage: BrowserStorageService) {   
+  }
 
   ngOnInit() {
     //test if user is current logged in
@@ -28,13 +31,13 @@ export class LoginComponent implements OnInit {
     } 
   }
     
-//login
-getUserLogged(): void {
-this.loginService.doLogin(this.login.email, this.login.password)
-
+  //login
+  getUserLogged(): void {
+    this.loginService.doLogin(this.login.email, this.login.password)
   }
 
 }
+
 interface Loginform {
   email: string;
   password: string;
