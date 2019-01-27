@@ -4,7 +4,6 @@ import { BrowserStorageService } from '../storage.service';
 import { Game } from '../game';
 import { Router } from '@angular/router';
 import { GameService } from '../game.service';
-import { resolve } from 'url';
 
 
 @Component({
@@ -28,150 +27,99 @@ export class PointsComponent implements OnInit {
 
   ngOnInit() {
     let email = this.storageService.get('email');
-    this.pointsService.getPoints(email)
+    /*this.pointsService.getPoints(email)
     .subscribe(result => {
       this.points.won = result[0].won;
       this.points.equal = result[0].equal;
       this.points.loose = result[0].loose;
-    });
+    });*/
 
     this.pointsService.getGames().subscribe(result => {
       console.log(result);
       
       this.activeGames = result;
       console.log("myGames are here");
+
+      this.pointsService.getId().subscribe(result =>{
+        this.storageService.set("id", result.toString());
+        let i = 0;
+        let playableBoxList = document.getElementsByClassName("choose");
+        playableBoxList[0].getElementsByTagName("td")[3].style.backgroundColor = "red";
+  
+        this.activeGames.forEach(element => {
+          if(result == element.player2){
+            let a = element.player1points;
+            element.player1points = element.player2points;
+            element.player2points = a;
+          }
+  
+          if(result == element.player2 && element.player2status == 1 && element.round <= 2){
+            playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
+          }else if(result == element.player2 && element.player2status == 0 && element.round <= 2){
+            playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
+          }else if(result == element.player1 && element.player1status == 1 && element.round <= 2){
+            playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
+          }else if(result == element.player1 && element.player1status == 0 && element.round <= 2){
+            playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
+          }
+          else{
+            playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "white";
+            playableBoxList[i].getElementsByTagName("td")[3].innerHTML = "Finished";
+          }
+          i++;
+      });
+  
+      });
     });
-
-    this.pointsService.getId().subscribe(result =>{
-      this.storageService.set("id", result.toString());
-      let i = 0;
-      let playableBoxList = document.getElementsByClassName("choose");
-      playableBoxList[0].getElementsByTagName("td")[3].style.backgroundColor = "red";
-
-      this.activeGames.forEach(element => {
-        if(result == element.player2){
-          let a = element.player1points;
-          element.player1points = element.player2points;
-          element.player2points = a;
-        }
-
-        if(result == element.player2 && element.player2status == 1){
-          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
-        }else if(result == element.player2 && element.player2status == 0){
-          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
-        }else if(result == element.player1 && element.player1status == 1){
-          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
-        }else if(result == element.player1 && element.player1status == 0){
-          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
-        }
-        i++;
-    });
-
-    });
-
-
-
   }
- 
 
   checkGameActive(gameId){
     return new Promise((resolve, reject) => {
-      console.log('promise in checkGameActive');
-      for(let game of this.activeGames){
-        console.log('check game')
+      let myPlayerId = this.storageService.get('id');
+      this.activeGames.forEach(game => {
         if(game.game_id === gameId){
-          console.log('Found current gameID in active games: ' + gameId);
-          this.pointsService.getId().subscribe(myPlayerID => {
-
-            //I am player 1 of this game
-            if(game.player1 === myPlayerID){
-              this.pointsService.getPlayer2StatusByGame(gameId)
-              .subscribe(result => {
-              console.log("player2 status is: " +result[0].player2status);
-              let player2Stat = result[0].player2status;
-              //if player2 is not playing let us play
-              if (player2Stat === 0) {
-                console.log('return true')
-                resolve();
-              } else {
-                console.log('return false')
-                reject();
-              }
-            });
+          //I am Player 1
+          if(game.player1 === Number(myPlayerId)){
+            //If Player 2 is not playing let us play
+            if(game.player2status === 0){
+              resolve();
             }
-            //I am player 2 of this game
-            else{
-              this.pointsService.getPlayer1StatusByGame(gameId)
-              .subscribe(result => {
-              console.log("player1 status is: " +result[0].player1status);
-              let player1Stat = result[0].player1status;
-              //if player1 is not playing let us play
-              if (player1Stat === 0) {
-                console.log('return true')
-                resolve();
-              } else {
-                console.log('return false')
-                reject();
-              }
-            });
+          }
+          //I am Player 2
+          else{
+            //If Player 1 is not playing let us play
+            if(game.player1status === 0){
+              resolve();
             }
-          })
+          }
+          reject('game not active');
         }
-      }
+      });
     })
   }
 
-  checkGameActive(gameId){
+  checkGameNotFinished(gameId){
     return new Promise((resolve, reject) => {
-      console.log('promise in checkGameActive');
-      for(let game of this.activeGames){
-        console.log('check game')
+      let myPlayerId = this.storageService.get('id');
+      this.activeGames.forEach(game => {
         if(game.game_id === gameId){
-          console.log('Found current gameID in active games: ' + gameId);
-          this.pointsService.getId().subscribe(myPlayerID => {
-
-            //I am player 1 of this game
-            if(game.player1 === myPlayerID){
-              this.pointsService.getPlayer2StatusByGame(gameId)
-              .subscribe(result => {
-              console.log("player2 status is: " +result[0].player2status);
-              let player2Stat = result[0].player2status;
-              //if player2 is not playing let us play
-              if (player2Stat === 0) {
-                console.log('return true')
-                resolve();
-              } else {
-                console.log('return false')
-                reject();
-              }
-            });
-            }
-            //I am player 2 of this game
-            else{
-              this.pointsService.getPlayer1StatusByGame(gameId)
-              .subscribe(result => {
-              console.log("player1 status is: " +result[0].player1status);
-              let player1Stat = result[0].player1status;
-              //if player1 is not playing let us play
-              if (player1Stat === 0) {
-                console.log('return true')
-                resolve();
-              } else {
-                console.log('return false')
-                reject();
-              }
-            });
-            }
-          })
+          if(game.round <= 2){
+            console.log('resolve first promise')
+            resolve(gameId);
+          }
+          else{
+            reject('game finished');
+          }
         }
-      }
+      });
+      reject('game not found');
     })
   }
 
   playGame(gameId, player1){
-    let promise = this.checkGameActive(gameId);
-    console.log('start promise')
-    promise.then(() => {
+    this.checkGameNotFinished(gameId)
+      .then(this.checkGameActive.bind(this))
+      .then(() => {
       console.log("starting game");
       this.storageService.set('gameId', gameId.toString());
       let id;
@@ -187,8 +135,13 @@ export class PointsComponent implements OnInit {
         }
       });
     })
-    .catch(function(){
-      alert('Warte bis dein Gegner fertigespielt hat!');
+    .catch((msg) => {
+      if(msg === 'game finished'){
+        alert('Dieses Spiel ist bereits beendet!');
+      }
+      else{
+        alert('Warte bis dein Gegner fertig gespielt hat!');
+      }
     });
   }
 }

@@ -61,8 +61,13 @@ console.log(this.shownUser);
   update(): void {
     this.submitted = true;
     this.userService.updateUser(this.shownUser)
-        .subscribe(result => { this.message = "Dein Profil ist updated";
-        alert('Dein Profil wurde upgedated'!)});
+        .subscribe(result => {
+          this.message = "Dein Profil ist updated";
+          this.browserStorage.set('firstname', this.shownUser.firstname)
+          this.browserStorage.set('lastname', this.shownUser.lastname)
+          this.browserStorage.set('email', this.shownUser.email)
+          alert('Dein Profil wurde upgedated'!);
+        });
   }
  
   //call delete method

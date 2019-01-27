@@ -51,7 +51,7 @@ export class Quiz2Component implements OnInit {
 
         //if player 2 is playing you have to wait
       } else {
-        alert('Warte bis dein Gegner fertigespielt hat!')
+        alert('Warte bis dein Gegner fertig gespielt hat!')
       }
     });
   } else {

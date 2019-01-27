@@ -4,11 +4,11 @@
   <h1>Deine Spiele</h1>
   <table>
       <tr>
-          <th>GameID</th>
-          <th>MyPoints</th>
-          <th>OponentsPoints</th>
-          <th>Can i play?</th>
-          <th>Round</th>
+          <th>Spiel Nr.</th>
+          <th>Meine Punkte</th>
+          <th>Punkte Gegner</th>
+          <th>Bereit zu spielen</th>
+          <th>Runde</th>
 
         </tr>
     <tr *ngFor="let game of activeGames" (click) = "playGame(game.game_id, game.player1)" class="choose">
@@ -20,10 +20,7 @@
     </tr>
   </table>
 
-  
-    <p>Du hast<br><span><strong>{{points.won}}x</strong></span><br> gewonnen</p>
-    <p>Du hast<br><span><strong>{{points.equal}}x</strong></span><br> unentschieden gespielt</p>
-    <p>Du hast<br><span><strong>{{points.loose}}x</strong></span><br> verloren</p></div>
+  </div>
 
   <app-footer></app-footer>
 </body>
