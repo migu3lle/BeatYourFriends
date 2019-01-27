@@ -38,7 +38,38 @@ export class PointsComponent implements OnInit {
       this.activeGames = result;
       console.log("myGames are here");
     });
+
+    this.pointsService.getId().subscribe(result =>{
+      this.storageService.set("id", result.toString());
+      let i = 0;
+      let playableBoxList = document.getElementsByClassName("choose");
+      playableBoxList[0].getElementsByTagName("td")[3].style.backgroundColor = "red";
+
+      this.activeGames.forEach(element => {
+        if(result == element.player2){
+          let a = element.player1points;
+          element.player1points = element.player2points;
+          element.player2points = a;
+        }
+
+        if(result == element.player2 && element.player2status == 1){
+          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
+        }else if(result == element.player2 && element.player2status == 0){
+          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
+        }else if(result == element.player1 && element.player1status == 1){
+          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
+        }else if(result == element.player1 && element.player1status == 0){
+          playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
+        }
+        i++;
+    });
+
+    });
+
+
+
   }
+ 
 
   playGame(gameId, player1){
     console.log("starting game");

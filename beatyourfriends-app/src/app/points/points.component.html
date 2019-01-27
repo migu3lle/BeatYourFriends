@@ -5,23 +5,17 @@
   <table>
       <tr>
           <th>GameID</th>
-          <th>Player1</th>
-          <th>Player2</th>
-          <th>MyAnsweredQuestion</th> 
-          <th>OponentsAnsweredQuestions</th>
           <th>MyPoints</th>
           <th>OponentsPoints</th>
+          <th>Can i play?</th>
           <th>Round</th>
 
         </tr>
     <tr *ngFor="let game of activeGames" (click) = "playGame(game.game_id, game.player1)" class="choose">
           <td>{{game.game_id}}</td>
-          <td>{{game.player1}}</td>
-          <td>{{game.player2}}</td>
-          <td>{{game.player1status}}</td>
-          <td>{{game.player2status}}</td>
           <td>{{game.player1points}}</td>
           <td>{{game.player2points}}</td>
+          <td class="playableBox"></td> 
           <td>{{game.round}}</td>
     </tr>
   </table>
