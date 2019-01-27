@@ -121,6 +121,53 @@ export class PointsComponent implements OnInit {
     })
   }
 
+  checkGameActive(gameId){
+    return new Promise((resolve, reject) => {
+      console.log('promise in checkGameActive');
+      for(let game of this.activeGames){
+        console.log('check game')
+        if(game.game_id === gameId){
+          console.log('Found current gameID in active games: ' + gameId);
+          this.pointsService.getId().subscribe(myPlayerID => {
+
+            //I am player 1 of this game
+            if(game.player1 === myPlayerID){
+              this.pointsService.getPlayer2StatusByGame(gameId)
+              .subscribe(result => {
+              console.log("player2 status is: " +result[0].player2status);
+              let player2Stat = result[0].player2status;
+              //if player2 is not playing let us play
+              if (player2Stat === 0) {
+                console.log('return true')
+                resolve();
+              } else {
+                console.log('return false')
+                reject();
+              }
+            });
+            }
+            //I am player 2 of this game
+            else{
+              this.pointsService.getPlayer1StatusByGame(gameId)
+              .subscribe(result => {
+              console.log("player1 status is: " +result[0].player1status);
+              let player1Stat = result[0].player1status;
+              //if player1 is not playing let us play
+              if (player1Stat === 0) {
+                console.log('return true')
+                resolve();
+              } else {
+                console.log('return false')
+                reject();
+              }
+            });
+            }
+          })
+        }
+      }
+    })
+  }
+
   playGame(gameId, player1){
     let promise = this.checkGameActive(gameId);
     console.log('start promise')
