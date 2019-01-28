@@ -77,6 +77,9 @@ export class Quiz2Component implements OnInit {
 
     });
   } else {
+    this.gameService.updateRound(this.storageService.get('gameId')).subscribe(()=>{
+      console.log("round changed - advance");
+    });
     //change player status
     let player2id = this.storageService.get('player2id');
     this.gameService.updatePlayStat(player2id)

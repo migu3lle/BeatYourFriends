@@ -44,7 +44,7 @@ export class PointsComponent implements OnInit {
         this.storageService.set("id", result.toString());
         let i = 0;
         let playableBoxList = document.getElementsByClassName("choose");
-        playableBoxList[0].getElementsByTagName("td")[3].style.backgroundColor = "red";
+        //playableBoxList[0].getElementsByTagName("td")[3].style.backgroundColor = "red";
   
         this.activeGames.forEach(element => {
           if(result == element.player2){
@@ -53,16 +53,18 @@ export class PointsComponent implements OnInit {
             element.player2points = a;
           }
   
-          if(result == element.player2 && element.player2status == 1 && element.round <= 2){
+          if(result == element.player2 && element.player2status == 1 && element.round <= 3){
             playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
-          }else if(result == element.player2 && element.player2status == 0 && element.round <= 2){
+          }else if(result == element.player2 && element.player2status == 0 && element.round <= 3){
             playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
-          }else if(result == element.player1 && element.player1status == 1 && element.round <= 2){
+          }else if(result == element.player1 && element.player1status == 1 && element.round <= 3){
             playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "green";
-          }else if(result == element.player1 && element.player1status == 0 && element.round <= 2){
+          }else if(result == element.player1 && element.player1status == 0 && element.round <= 3){
             playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "red";
           }
-          else{
+
+          if(element.round >= 4){
+            playableBoxList[i].getElementsByTagName("td")[4].innerHTML = "3";
             playableBoxList[i].getElementsByTagName("td")[3].style.backgroundColor = "white";
             playableBoxList[i].getElementsByTagName("td")[3].innerHTML = "Finished";
           }
@@ -103,7 +105,7 @@ export class PointsComponent implements OnInit {
       let myPlayerId = this.storageService.get('id');
       this.activeGames.forEach(game => {
         if(game.game_id === gameId){
-          if(game.round <= 2){
+          if(game.round <= 3){
             console.log('resolve first promise')
             resolve(gameId);
           }

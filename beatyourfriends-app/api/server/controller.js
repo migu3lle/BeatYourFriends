@@ -703,7 +703,7 @@ router.put('/play/:gameid', function (req, res) {
 		let insertquery = `
 		INSERT INTO game(game_id, player1, player2, player1status, player2status, player1points, player2points, round)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-		_db.query(insertquery, [gamingid, user1id, player2id, 1, 0, 0, 0, 0], (error, results) => {
+		_db.query(insertquery, [gamingid, user1id, player2id, 1, 0, 0, 0, 1], (error, results) => {
 		if(error){
 			console.log(gamingid);
 			res.status(400).json({message: "Error"});
