@@ -793,4 +793,8 @@ router.put('/updateRound/:gameid', function(req, res){
 
 });
 
+router.post('/notifications', function(req, res){
+	console.log('received /notifications for user: ' + req.body.userToken)
+})
+
 module.exports = router;

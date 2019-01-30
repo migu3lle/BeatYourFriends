@@ -18,6 +18,8 @@ import { PointsComponent } from './points/points.component';
 import { Quiz2Component } from './quiz2/quiz2.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessagesComponent } from './messages/messages.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { MessagesComponent } from './messages/messages.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [User],
   bootstrap: [AppComponent]
