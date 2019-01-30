@@ -4,13 +4,37 @@ import { PointsService } from '../points.service';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { BrowserStorageService } from '../storage.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.css']
+  styleUrls: ['./quiz.component.css'],
+  animations: [
+    // animation triggers go here
+    trigger('colorAnswer', [
+      state('unknown', style({
+        backgroundColor: 'teal'
+      })),
+      state('correct', style({
+        backgroundColor: 'limegreen'
+      })),
+      transition('unknown => correct', [
+        animate('0.3s 600ms')
+      ]),
+    ]),
+  ]
 })
 export class QuizComponent implements OnInit {
+
+  //Variable to colorize correct Answer
+  isCorrect = 0;
 
   questions: Questions = {
     question: '',
@@ -28,7 +52,6 @@ export class QuizComponent implements OnInit {
   constructor(private gameService: GameService,
     private pointsService: PointsService,
     private router: Router,
-    private userService: UserService,
     private storageService: BrowserStorageService) { }
 
   ngOnInit() {
@@ -45,10 +68,6 @@ export class QuizComponent implements OnInit {
 
       //if player2 is not playing load questions
       if (player2Stat === 0) {
-
-        /*this.gameService.updateRound(this.storageService.get('gameId')).subscribe(()=>{
-          console.log("round changed - advance");
-        });*/
         this.ind.o++;
         this.getQ();
 
@@ -68,7 +87,6 @@ export class QuizComponent implements OnInit {
 
     //call game service
     let gameid = this.storageService.get('gameId');
-    console.log("the gameId is: " + gameid);
     this.gameService.getQuestion(this.ind.i, gameid)
     .subscribe(result => {
       console.log("result: " + result[0]);
@@ -96,11 +114,14 @@ export class QuizComponent implements OnInit {
 
   //Fetch answer
   getA(index: any, token: string) {
+    let answerDivs = document.getElementsByClassName('answer');
+    answerDivs[index-1].setAttribute('style', 'border: 4px solid black;')
     this.gameService.getAnswer(token)
     .subscribe(result => {
 
       //check if answer was correct
       let rightIndex = result[0].Richtig;
+      this.isCorrect = rightIndex;
       console.log(index);
       console.log(result[0].Richtig);
       if (index == rightIndex) {
@@ -110,9 +131,17 @@ export class QuizComponent implements OnInit {
           this.pointsService.storePoint1(index).subscribe(result => {
             console.log("idk");
           });
-          this.getQ();
+          setTimeout(() => {
+            this.isCorrect = 0;
+            answerDivs[index-1].removeAttribute('style');
+            this.getQ();
+          }, 2000);
       } else {
+        setTimeout(() => {
+          this.isCorrect = 0;
+          answerDivs[index-1].removeAttribute('style');
           this.getQ();
+        }, 2000);
       }
     });
   }

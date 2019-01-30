@@ -16,6 +16,7 @@ import { PasswordFgComponent } from './password-fg/password-fg.component';
 import { PasswordChangeComponent } from './password-change/password-change.component';
 import { PointsComponent } from './points/points.component';
 import { Quiz2Component } from './quiz2/quiz2.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { Quiz2Component } from './quiz2/quiz2.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
   ],
   providers: [User],
   bootstrap: [AppComponent]

@@ -3,9 +3,9 @@
   <div class="quiz">
   <p id="question">{{questions.question}}</p>
   <div class ="answerContainer">
-    <div class="answer" (click)="getA('1', questions.token)">{{questions.a1}}</div>
-    <div class="answer" (click)="getA('2', questions.token)">{{questions.a2}}</div>
-    <div class="answer" (click)="getA('3', questions.token)">{{questions.a3}}</div>
+    <div [@colorAnswer]="isCorrect==1 ? 'correct' : 'unknown'" class="answer" (click)="getA('1', questions.token)">{{questions.a1}}</div>
+    <div [@colorAnswer]="isCorrect==2 ? 'correct' : 'unknown'" class="answer" (click)="getA('2', questions.token)">{{questions.a2}}</div>
+    <div [@colorAnswer]="isCorrect==3 ? 'correct' : 'unknown'" class="answer" (click)="getA('3', questions.token)">{{questions.a3}}</div>
   </div>
   </div>
 <app-footer></app-footer>

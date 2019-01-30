@@ -4,13 +4,37 @@ import { BrowserStorageService } from '../storage.service';
 import { PointsService } from '../points.service';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-quiz2',
   templateUrl: './quiz2.component.html',
-  styleUrls: ['./quiz2.component.css']
+  styleUrls: ['./quiz2.component.css'],
+  animations: [
+    // animation triggers go here
+    trigger('colorAnswer', [
+      state('unknown', style({
+        backgroundColor: 'teal'
+      })),
+      state('correct', style({
+        backgroundColor: 'limegreen'
+      })),
+      transition('unknown => correct', [
+        animate('0.3s 600ms')
+      ]),
+    ]),
+  ]
 })
 export class Quiz2Component implements OnInit {
+
+  //Variable to colorize correct Answer
+  isCorrect = 0;
 
   questions: Questions = {
     question: '',
@@ -28,7 +52,6 @@ export class Quiz2Component implements OnInit {
   constructor(private gameService: GameService,
     private storageService: BrowserStorageService,
     private router: Router,
-    private userService: UserService,
     private pointsService: PointsService) { }
 
   ngOnInit() {
@@ -93,11 +116,14 @@ export class Quiz2Component implements OnInit {
 
   //Fetch answer
   getA(index: any, token: string) {
+    let answerDivs = document.getElementsByClassName('answer');
+    answerDivs[index-1].setAttribute('style', 'border: 4px solid black;')
     this.gameService.getAnswer(token)
     .subscribe(result => {
 
       //check if answer was correct
       let rightIndex = result[0].Richtig;
+      this.isCorrect = rightIndex;
       console.log(index);
       console.log(result[0].Richtig);
       if (index == rightIndex) {
@@ -108,9 +134,17 @@ export class Quiz2Component implements OnInit {
           this.pointsService.storePoint2(index).subscribe(result => {
             console.log("idk");
           });
-          this.getQ();
+          setTimeout(() => {
+            this.isCorrect = 0;
+            answerDivs[index-1].removeAttribute('style');
+            this.getQ();
+          }, 2000);
       } else {
+        setTimeout(() => {
+          this.isCorrect = 0;
+          answerDivs[index-1].removeAttribute('style');
           this.getQ();
+        }, 2000);
       }
     });
   }
