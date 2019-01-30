@@ -17,6 +17,7 @@ import { PasswordChangeComponent } from './password-change/password-change.compo
 import { PointsComponent } from './points/points.component';
 import { Quiz2Component } from './quiz2/quiz2.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PasswordChangeComponent,
     PointsComponent,
     Quiz2Component,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import { BrowserStorageService } from '../storage.service';
 import { Game } from '../game';
 import { Router } from '@angular/router';
 import { GameService } from '../game.service';
+import { MessageService } from '../message.service'
 
 
 @Component({
@@ -23,7 +24,7 @@ export class PointsComponent implements OnInit {
   constructor(private pointsService: PointsService,
     private storageService: BrowserStorageService,
     private router: Router,
-    private gameService: GameService) { }
+    private messageService: MessageService) { }
 
   ngOnInit() {
     let email = this.storageService.get('email');
@@ -139,10 +140,12 @@ export class PointsComponent implements OnInit {
     })
     .catch((msg) => {
       if(msg === 'game finished'){
-        alert('Dieses Spiel ist bereits beendet!');
+        this.messageService.clear();
+        this.messageService.add('Dieses Spiel ist bereits beendet!');
       }
       else{
-        alert('Warte bis dein Gegner fertig gespielt hat!');
+        this.messageService.clear();
+        this.messageService.add('Warte bis dein Gegner fertig gespielt hat!');
       }
     });
   }
