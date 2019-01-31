@@ -33,7 +33,7 @@ To run this project on your computer please stick to the instructions below.<br>
   * `GRANT ALL PRIVILEGES ON beatyourfriends.* TO 'beatyourfriends'@'localhost';`<br>
   Consider to use **'mysql_native_password'** as mysql.user.plugin for 'beatyourfriends' mysql user !! <br>
   ##### 2.2 Fill database from script<br>
-    Run the SQL script `beatyourfriends_database.sql` located in project's root folder<br>
+  Run the SQL script `beatyourfriends_database.sql` located in project's root folder<br>
 #### 3. Install NodeJS and serve NodeJS server application<br>
   * Install NodeJS from https://nodejs.org (if you haven't done so far)<br>
   * Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `node /api/server/server.js` command<br>
