@@ -37,12 +37,12 @@ To run this project on your computer please stick to the instructions below.<br>
 #### 3. Install NodeJS and serve NodeJS server application<br>
   * Install NodeJS from https://nodejs.org (if you haven't done so far)<br>
   * Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `node /api/server/server.js` command<br>
-  To test the server running open localhost:3000 in your browser. You should see a message "Welcome to module api".<br>
+  To test the server running open `localhost:3000` in your browser. You should see a message "Welcome to module api".<br>
 #### 4. Install Angular and serve application<br>
   * Install Angluar CLI (if you haven't so far) by running `npm install -g @angular/cli`<br>
   * Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `npm install` command<br>
   * Start Angular development server with command `ng serve --open`<br>
-  The Angular front end will be available on localhost:4200<br>
+  The Angular front end will be available on `localhost:4200`<br>
   
 
 
