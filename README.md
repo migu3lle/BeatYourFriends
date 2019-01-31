@@ -27,11 +27,11 @@ To run this project on your computer please stick to the instructions below.<br>
 #### 2. Install and setup MySQL Database (MySQL installation preconditioned)<br>
   ##### 2.1 Create database and user
   Run commands <br>
-    * `mysql -u root -p` --> type in root password <br>
-    * `CREATE DATABASE beatyourfriends;` <br>
-    * `CREATE USER 'beatyourfriends'@'localhost' IDENTIFIED BY 'test123';`<br>
-    * `GRANT ALL PRIVILEGES ON beatyourfriends.* TO 'beatyourfriends'@'localhost';`<br>
-    Consider to use 'mysql_native_password' as mysql.user.plugin for 'beatyourfriends' mysql user !! <br>
+  * `mysql -u root -p` --> type in root password <br>
+  * `CREATE DATABASE beatyourfriends;` <br>
+  * `CREATE USER 'beatyourfriends'@'localhost' IDENTIFIED BY 'test123';`<br>
+  * `GRANT ALL PRIVILEGES ON beatyourfriends.* TO 'beatyourfriends'@'localhost';`<br>
+  Consider to use **'mysql_native_password'** as mysql.user.plugin for 'beatyourfriends' mysql user !! <br>
   ##### 2.2 Fill database from script<br>
     Run the SQL script `beatyourfriends_database.sql` located in project's root folder<br>
 #### 3. Install NodeJS and serve NodeJS server application<br>
