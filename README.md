@@ -20,27 +20,29 @@ A tiny quiz game web application
  
 ### Installation
 To run this project on your computer please stick to the instructions below.<br>
-1. Clone this project (git required)<br>
+#### 1. Clone this project (git required)<br>
   Open Terminal and move to your installation folder. Run command <br>
   `git clone https://github.com/migu3lle/BeatYourFriends` <br>
   You will download the master branch to your computer.
-2. Install and setup MySQL Database (MySQL installation preconditioned)<br>
-  2.1 Create Database and user<br>
+#### 2. Install and setup MySQL Database (MySQL installation preconditioned)<br>
+  ##### 2.1 Create database and user
     Run commands <br>
-    `mysql -u root -p` --> type in root password<br>
-    `CREATE DATABASE beatyourfriends;`<br>
-    `CREATE USER 'beatyourfriends'@'localhost' IDENTIFIED BY 'test123';`<br>
-    `GRANT ALL PRIVILEGES ON beatyourfriends.* TO 'beatyourfriends'@'localhost';`<br>
+    * `mysql -u root -p` --> type in root password<br>
+    * `CREATE DATABASE beatyourfriends;`<br>
+    * `CREATE USER 'beatyourfriends'@'localhost' IDENTIFIED BY 'test123';`<br>
+    * `GRANT ALL PRIVILEGES ON beatyourfriends.* TO 'beatyourfriends'@'localhost';`<br>
     Consider to use 'mysql_native_password' as mysql.user.plugin for 'beatyourfriends' mysql user !! <br>
-  2.2 Fill database from script<br>
+  ##### 2.2 Fill database from script<br>
     Run the SQL script `beatyourfriends_database.sql` located in project's root folder<br>
-3. Install NodeJS and serve NodeJS server application<br>
-  3.1 Install NodeJS from https://nodejs.org (if you haven't done so far)<br>
-  3.2 Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `node /api/server/server.js` command<br>
-4. Install Angular and serve application<br>
-  4.1 Install Angluar CLI (if you haven't so far) by running `npm install -g @angular/cli`<br>
-  4.2 Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `npm install` command<br>
-  4.3 Start Angular development server with command `ng serve --open`<br>
+#### 3. Install NodeJS and serve NodeJS server application<br>
+  * Install NodeJS from https://nodejs.org (if you haven't done so far)<br>
+  * Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `node /api/server/server.js` command<br>
+  To test the server running open localhost:3000 in your browser. You should see a message "Welcome to module api".<br>
+#### 4. Install Angular and serve application<br>
+  * Install Angluar CLI (if you haven't so far) by running `npm install -g @angular/cli`<br>
+  * Move to project folder /BeatYourFriends/beatyourfriends-app/ and run `npm install` command<br>
+  * Start Angular development server with command `ng serve --open`<br>
+  The Angular front end will be available on localhost:4200<br>
   
 
 
