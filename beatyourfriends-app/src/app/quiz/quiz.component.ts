@@ -31,6 +31,8 @@ import {
     ]),
   ]
 })
+
+/** Class representing a QuizComponent. */
 export class QuizComponent implements OnInit {
 
   //Variable to colorize correct Answer
@@ -49,11 +51,25 @@ export class QuizComponent implements OnInit {
     o: 1
   }
 
+  /**
+    * Create a QuizComponent.
+    * @param {GameService} gameService - The injected gameService object.
+    * @param {PointsService} pointsService - The injected pointsService object.
+    * @param {BrowserStorageService} storageService - The injected browserStorageService object.
+    * @param {Router} router - The injected router object.
+    * @author Christina Senger, Felix Gaggl, Michael Gundacker
+  */
   constructor(private gameService: GameService,
     private pointsService: PointsService,
     private router: Router,
     private storageService: BrowserStorageService) { }
 
+  /**
+    * Called on init of quiz component
+    * Checks the player's status and calls get Questions 
+    * or navigates to game component if game (rounds == 3)
+    * @author Christina Senger, Felix Gaggl, Michael Gundacker
+  */
   ngOnInit() {
     if (this.ind.o <= 3) {
     //get player2s id
@@ -81,6 +97,11 @@ export class QuizComponent implements OnInit {
   }
   }
 
+  /**
+    * Loads new question with 3 answers for the current turn
+    * or navigates to game component if 3 questions have been loaded already (turn finished)
+    * @author Christina Senger, Felix Gaggl, Michael Gundacker
+  */
   getQ() {
     //test if already 3 question
     if (this.ind.i <= 3) {
@@ -108,11 +129,16 @@ export class QuizComponent implements OnInit {
       this.router.navigate(['game']);
     });
    
-    // --> SEND NOTIFICATION
+    // --> TODO SEND NOTIFICATION
   };
   }
 
-  //Fetch answer
+  /**
+    * Loads the right answer for the current question
+    * @param {index} any - the index of the chosen answer (1-3)
+    * @param {token} String - the questions.token field
+    * @author Christina Senger, Felix Gaggl, Michael Gundacker
+  */
   getA(index: any, token: string) {
     let answerDivs = document.getElementsByClassName('answer');
     answerDivs[index-1].setAttribute('style', 'border: 4px solid black;')

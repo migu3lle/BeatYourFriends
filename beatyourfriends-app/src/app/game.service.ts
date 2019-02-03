@@ -11,9 +11,14 @@ export class GameService {
 
   constructor(private http: HttpClient, private storageService: BrowserStorageService) { }
 
-    //create new game
+  /**
+    * Create a new game with random gameID
+    * @param {token} String - Token of currently logged in user - identifies player 1
+    * @param {id} String - ID of player 2 chosen from friends list
+    * @returns {Observable<number>} - The game id
+    * @author Michael Gundacker, Christina Senger
+  */
   createGameForUser(token: String, id:String): Observable<number> {
-
     //Generate random game ID and send to server to be stored in database
     let gameId = Math.floor(Math.random() * (999999 - 9999) + 9999);
     this.storageService.set('gameId', gameId.toString());

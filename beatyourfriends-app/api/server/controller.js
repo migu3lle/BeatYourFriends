@@ -793,8 +793,26 @@ router.put('/updateRound/:gameid', function(req, res){
 
 });
 
+/**
+    * Takes a newsletter subscription object and stores into the database
+	* @author Michael Gundacker
+*/
 router.post('/notifications', function(req, res){
+	let subscription = req.body.subscription;
+	let userToken = req.body.userToken;
 	console.log('received /notifications for user: ' + req.body.userToken)
+	let insertquery = `
+		INSERT INTO subscriptions(userid, subscription)
+		VALUES (?, ?)`;
+		_db.query(insertquery, [subscription, userToken], (error, results) => {
+		if(error){
+			res.status(400).json({message: "DB Error"});
+			console.log("notification insert db error");
+		} else{
+			res.status(200).json('Subscription inserted successfully');
+			console.log("insert subscription success success");
+		}
+	})
 })
 
 module.exports = router;
