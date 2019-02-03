@@ -11,17 +11,25 @@ import { Router } from '@angular/router';
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css']
 })
+/** Class representing a FriendsComponent. */
 export class FriendsComponent implements OnInit {
 
   users: User[]; 
   shownUsers: User[]; 
 
   constructor(private userService: UserService, private storgageService: BrowserStorageService, private gameService: GameService, private router: Router) { }
-
+  /**
+  * Method gets called on initialisation of the page, calls the method getAllUsers()
+  * @author 
+  */ 
   ngOnInit() {
     this.getAllUsers();
   }
-  
+  /**
+  * Method calls the userService to get all the possible users, after the result is returned
+  * the user that is logged in gets removed from this array and the result is saved into shownUsers[]
+  * @author 
+  */
   getAllUsers() {
 
     //fetchh from db
@@ -42,7 +50,13 @@ export class FriendsComponent implements OnInit {
       }
     );
   }
-
+/**
+  * Method gets called by clicking onto one displayed friend in the html
+  * The method calls the gameServive.createGameForUser, we wait for the result of this call and
+  * after a result is returned we navigate to the quiz component
+  * @param {String} id
+  * @author Felix Gaggl
+  */
   requestNewGame(id: String){
     console.log("requesting new game!");
     console.log(id);

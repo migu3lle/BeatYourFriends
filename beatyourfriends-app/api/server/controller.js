@@ -304,7 +304,11 @@ router.get('/stat/:email', function (req, res) {
 
 // ------------------> Game <-------------------//
 
-//get player 2s game status
+/**
+    * Gets called to receive the playerstatus of player1 from the game with the gameId in the parameters
+	* Sends the playerstatus back to the requester
+	* @author Felix Gaggl, Christina Senger
+*/
 router.get('/players/:gameid', function (req, res) {
 		let gameId = req.params.gameid;
 		console.log(gameId);
@@ -322,7 +326,11 @@ router.get('/players/:gameid', function (req, res) {
 });
 
 
-//get player 1s game status
+/**
+    * Gets called to receive the playerstatus of player1 from the game with the gameId in the parameters
+	* Sends the playerstatus back to the requester
+	* @author Felix Gaggl, Christina Senger
+*/
 router.get('/player/:gameid', function (req, res) {
 	let gameId = req.params.gameid;
 	console.log(gameId);
@@ -340,7 +348,13 @@ router.get('/player/:gameid', function (req, res) {
 });
 
 
-//update game status
+/**
+    * Gets called when one player finishes his playing round and the game status of both players need to be
+	* updated, this gets done by reversing the gameStatus of both players. If the status was 1 it is set to 0 and
+	* the other way round
+	* As a confirmation the message: "updated" is sent back to the requester
+	* @author Felix Gaggl, Christina Senger
+*/
 router.put('/player/:gameid', function (req, res) {
 	let gameId = req.body.gameid;
 	console.log("gameID is: " + gameId);
@@ -662,7 +676,14 @@ if (error) {
 });
 
 
-//store gameId in db and set player status
+/**
+    * Gets called when a new game is requested, first userid is queried from the database with the usertoken
+	* then this userid and the id of the second player are used to insert a new game into the game database table
+	* the status of player1 is set to 1 (first player to play) and the status of the second player is set to 0
+	* the points are both set to 0 and the round to round1
+	* when everything finished and worked, the id of user 1 is sent back to the requester as confirmation
+	* @author Felix Gaggl, Christina Senger
+*/
 router.put('/play/:gameid', function (req, res) {
 	console.log(req.body);
 	console.log(req.params);
@@ -720,7 +741,12 @@ router.put('/play/:gameid', function (req, res) {
 
 	//res.status(200).json(req.params.id);
 });
-
+/**
+    * Queries the database for the userid of the corresponding email
+	* this userid is then used to find all the games of the user
+	* sends these games back to the requester then
+	* @author Felix Gaggl
+*/
 router.get('/games/:email', function(req, res){
 	console.log(req.params.email);
 	let email = req.params.email;
@@ -755,7 +781,10 @@ router.get('/games/:email', function(req, res){
 
 
 });
-
+/**
+    * Queries the database for the email adress and sends the userid back to the requester
+	* @author Felix Gaggl
+*/
 router.get('/userid/:email', function(req, res){
 	let email = req.params.email;
 	let userquery = `SELECT userid 
@@ -772,7 +801,10 @@ router.get('/userid/:email', function(req, res){
 
 });
 
-
+/**
+    * Increments the round of the game with the gameid in the put-body
+	* @author Felix Gaggl
+*/
 router.put('/updateRound/:gameid', function(req, res){
 	let gameId = req.body.gameid;
 	console.log(gameId + " requests a round change!");
