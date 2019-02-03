@@ -23,15 +23,23 @@ export class LoginComponent implements OnInit {
     private storage: BrowserStorageService) {   
   }
 
+ /**
+  * Method checks if there is a user that is currently logged in
+  * If there is a user logged in the router navigated to the dashboard (Page where friends are displayed)
+  * @author 
+  */
   ngOnInit() {
-    //test if user is current logged in
     const user = this.storage.get('token');
     if (user !== null && user !== undefined) {
       this.router.navigate(['dashboard']);
     } 
   }
     
-  //login
+ /**
+  * Method that is called by clicking login in the html, loginService gets called with the
+  * parameters that are typed in by the user into the login form
+  * @author 
+  */
   getUserLogged(): void {
     this.loginService.doLogin(this.login.email, this.login.password)
   }

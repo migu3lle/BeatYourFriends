@@ -26,6 +26,13 @@ export class PointsComponent implements OnInit {
     private router: Router,
     private messageService: MessageService) { }
 
+ /**
+  * Sets up the points component, which displays the games of the logged in user
+  * The games get fetched through the pointsServerce and are later put into the list in the html document
+  * The checkbox, whether the game is playable or not gets colored in the correct color and some some changes
+  * to the display of player1/ player2 points are made
+  * @author Felix Gaggl
+  */  
   ngOnInit() {
     let email = this.storageService.get('email');
     /*this.pointsService.getPoints(email)
@@ -75,7 +82,14 @@ export class PointsComponent implements OnInit {
       });
     });
   }
-
+ /**
+  * Method that checks whether a game can be played or not depending on the status of the game
+  * If logged in player is player1 and player2status is 0 we resolve the promise and the user can play
+  * If logged in player is player2 and player1status is 0 we resolve the promise and the user can play
+  * If none of the above get resolved, the promise gets rejected
+  * @param {number} gameId
+  * @author 
+  */
   checkGameActive(gameId){
     return new Promise((resolve, reject) => {
       let myPlayerId = this.storageService.get('id');
@@ -101,6 +115,14 @@ export class PointsComponent implements OnInit {
     })
   }
 
+ /**
+  * Method that checks whether the game is already finished or not
+  * This calculation is based on the round variable of the game and if this is over 3 the game is 
+  * considered finished and the promise gets rejected. If the gameround is under or equal to 3 we resolve
+  * the promise and the game can be player
+  * @param {number} gameId
+  * @author 
+  */
   checkGameNotFinished(gameId){
     return new Promise((resolve, reject) => {
       let myPlayerId = this.storageService.get('id');
@@ -118,7 +140,18 @@ export class PointsComponent implements OnInit {
       reject('game not found');
     })
   }
-
+ /**
+  * PlayGame Method gets called by clicking on the list in the html
+  * The method first checks whether the clicked game is finished or not by calling checkGameNotFinished
+  * If this check resolves posititve (game not finished) the gameId gets set into the local storage and
+  * if we are player1 we get navigated to quiz1 if player2 quiz2
+  * If the game if already finished or the game can currently not be played a message indicating this
+  * is shown
+  * @param {number} gameId 
+  * @param {number} player1
+  * @author Felix Gaggl 
+  * @author Michael Gundacker
+  */  
   playGame(gameId, player1){
     this.checkGameNotFinished(gameId)
       .then(this.checkGameActive.bind(this))
