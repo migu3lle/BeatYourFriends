@@ -6,10 +6,15 @@ const _db = getDb();
 //Express import
 const express = require('express');
 const router = express.Router();
+
 const nodemailer = require('nodemailer');
 
-
-
+/**
+@author Christina Senger
+@description selects a user from db which email and password are those from request body
+creates token using module cryption
+stores token into table token (valid for 24h)
+*/
 // ----------------> login <--------------------------------//
 
 router.post('/loginroutes', function (req, res) {
@@ -26,10 +31,11 @@ router.post('/loginroutes', function (req, res) {
 		// --- error handling
         if(error){console.log('fehler');
 			res.status(400).json({message: "Error"});
+        // --- no results found
         } else if (results.length < 1){console.log('E-Mail oder Passwort falsch');
             res.status(401).json({message: "E-Mail oder Passwort falsch"});
 	 
-	// --- login
+	// --- get data
     } else {
     let secret = Math.floor(Math.random() * 1000000000+97);
     let userid = results[0].id;
@@ -61,7 +67,11 @@ console.log(token);
 });
 
 
-
+/**
+@author Christina Senger
+@description CRUD functions to get all or one specific user by email, to update or delete user
+additionally function to get email by id
+*/
 // --------------------> Profil Functions <------------------//
 
 // Fetch all Users
@@ -162,10 +172,20 @@ router.delete('/user/:email', function (req, res) {
 });
 
 
+/**
+@author Christina Senger
+@description function to send mail checks if user with given email exists in db
+then create a passtoken with module crypto and store to table tokens
+send mail with nodemailer module from my mail adress to users mail with a link to password reset site containing passtoken
 
+function to reset password checks if passtoken is still valid
+if it is valid it shows to pw-change site
+then update password with the given values
+*/
 //------------------------> Password Reset <------------------//
 
-//check if email exists for a user in a db
+//send reset mail
+// --- check if email exists for a user in a db
 router.get('/reset/:email', function (req, res) {
 	let email = req.params.email;
 	console.log(email);
@@ -180,7 +200,7 @@ router.get('/reset/:email', function (req, res) {
 		} else {
 			res.status(200).json(data);
 
-			//create token
+			// --- create token
 			let secret = Math.floor(Math.random() * 1000000000+97);
 			console.log(data[0].id);
 			let userid =data[0].id;
@@ -190,7 +210,7 @@ router.get('/reset/:email', function (req, res) {
 			.digest('hex');
 			console.log(token);
 
-			//store token in db
+			// --- store token in db
 			let dbinstert = `
 			INSERT INTO tokens(userid, passtoken, expires)
 				VALUES  (? , ?, NOW() + INTERVAL 24 HOUR)`;
@@ -215,7 +235,7 @@ router.get('/reset/:email', function (req, res) {
 			   // --- set options
 			   let mailOptions = {
 				from: 'chrisi.senger@gmail.com',
-				to: email, // list of receivers
+				to: email, //list of receivers
 				subject: 'Beat your Friends Passwort Reset',
 				text: 'Sie haben einen Passwort Reset angefordet.' +
 					'Klicken Sie auf folgenden Link, um ihr Passwort zu ändern:' +
@@ -235,13 +255,13 @@ router.get('/reset/:email', function (req, res) {
 	});
 });
 
-
-//check if user can reset password
+//password reset
+// --- check if user can reset password
 router.get('/res/:token', function (req,res ) {
 	let resettoken = req.params.token;
 	console.log(resettoken);
 
-	//check if passtoken exists and is still valid
+	// --- check if passtoken exists and is still valid
 	let query = `
 	SELECT expires
 	FROM tokens
@@ -251,7 +271,7 @@ router.get('/res/:token', function (req,res ) {
 			res.status(400).json({message: "Der Reset Token ist nicht gültig."});
 		} 
 		
-			//show Site
+			// --- show Site
 			else {
 				res.status(200).json(true);
 			}
@@ -259,13 +279,13 @@ router.get('/res/:token', function (req,res ) {
 });
 
 
-//update Password
+// --- update Password
 router.put('/change', function (req, res) {
 	let pass = req.body.password;
 	let email = req.body.email;
 	console.log(pass);
 
-	//db query
+	// --- db query
 	let query = `
 	UPDATE users
 		SET
