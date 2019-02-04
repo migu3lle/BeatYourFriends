@@ -8,6 +8,12 @@ export const BROWSER_STORAGE = new InjectionToken<Storage>('Browser Storage', {
 @Injectable({
   providedIn: 'root'
 })
+ /**
+  * Class BrowserStorageService, containing classic localStorage methods get, set, remove and clear
+  * @aram key - key value from local storage
+  * @param value - value from local storage
+  * @author Christina Senger
+  */  
 export class BrowserStorageService {
   constructor(@Inject(BROWSER_STORAGE) public storage: Storage) {}
 
