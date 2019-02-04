@@ -329,11 +329,7 @@ router.get('/stat/:email', function (req, res) {
 
 // ------------------> Game <-------------------//
 
-/**
-* @description get player 2s game status
-* @param gameId - current game id
-* @author Christina Senger
-*/
+
 router.get('/players/:gameid', function (req, res) {
 		let gameId = req.params.gameid;
 		console.log(gameId);
@@ -351,11 +347,7 @@ router.get('/players/:gameid', function (req, res) {
 });
 
 
-/**
-* @description get player 1s game status
-* @param gameId - current game id
-* @author Christina Senger
-*/
+
 router.get('/player/:gameid', function (req, res) {
 	let gameId = req.params.gameid;
 	console.log(gameId);
@@ -374,11 +366,6 @@ router.get('/player/:gameid', function (req, res) {
 
 
 
-/**
-* @description change game status either to 0 or 1
-* @param gameId - current game id
-* @author Christina Senger
-*/
 router.put('/player/:gameid', function (req, res) {
 	let gameId = req.body.gameid;
 	console.log("gameID is: " + gameId);
