@@ -8,6 +8,10 @@ import { BrowserStorageService } from '../storage.service';
   templateUrl: './password-fg.component.html',
   styleUrls: ['./password-fg.component.css']
 })
+/**
+* call pwService with input email
+* @author Christina Senger
+*/
 export class PasswordFgComponent implements OnInit {
 
   user = new User;
