@@ -7,6 +7,13 @@ import { User } from './user';
 @Injectable({
   providedIn: 'root'
 })
+ /**
+  * Class UserService, containing CRUD operations to REST Api
+  * @param email - email from local storage
+  * @param id - userid from local storage
+  * @param user - current user
+  * @author Christina Senger
+  */  
 export class UserService {
 
   private usersUrl = 'http://localhost:3000/api/user';
