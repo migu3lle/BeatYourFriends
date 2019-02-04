@@ -22,6 +22,10 @@ export class GameComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+  * fetch players and their points from db and write message depending on who is logged in and who has won
+  * @author Christina Senger
+  */
   requestPoints(){
     return this.gameService.getWinner()
       .subscribe(result => {
