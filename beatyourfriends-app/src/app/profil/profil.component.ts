@@ -34,8 +34,11 @@ export class ProfilComponent implements OnInit {
     private router: Router
   ) { }
 
+  /**
+  * get values from local storage and get user from db
+  * @author Christina Senger
+  */
   ngOnInit(): void {
-    //get values from local storage
     let email = this.browserStorage.get('email');
     let lastn = this.browserStorage.get('lastname');
     let firstn = this.browserStorage.get('firstname');
@@ -44,7 +47,6 @@ export class ProfilComponent implements OnInit {
     this.shownUser.lastname = lastn;
     this.shownUser.email = email;
 
-    //get user from db
     this.userService.getUser(email)
       .subscribe(user => {
       this.user = user;
@@ -57,7 +59,10 @@ console.log(this.user);
 console.log(this.shownUser);
 }
   
-  //call update method
+  /**
+  * call update method and set storage with values from shownUser
+  * @author Christina Senger
+  */
   update(): void {
     this.submitted = true;
     this.userService.updateUser(this.shownUser)
@@ -70,14 +75,18 @@ console.log(this.shownUser);
         });
   }
  
-  //call delete method
+  /**
+  * call delete method and log user out
+  * @param email - users email 
+  * @author Christina Senger
+  */
   delete(): void {
     this.submitted = true;
     this.userService.deleteUser(this.user[0].email)
         .subscribe(result => {
         this.message = "Dein Profil wurde gelöscht";
         alert('Dein Profil wurde gelöscht!');
-        //log user out
+      
         this.browserStorage.remove('token');
         this.router.navigate(['/login']);
         });
