@@ -1,3 +1,11 @@
+/**
+@author Christina Senger
+@description sets an express server listening on port 3000
+all origins allowed;
+sets controller.js as route for requests
+initializes db with function initDB fro file config.db
+*/
+
 //File imports
 let cfg = require('./config.json');
 const db = require('./config.db');
@@ -30,6 +38,7 @@ app.use(function(req, res, next) {
 //routes
 app.use('/api', controller);
 
+//testroutes
 app.get('/', function(req, res) {
   res.json({message: 'Welcome to module api'});
 });
