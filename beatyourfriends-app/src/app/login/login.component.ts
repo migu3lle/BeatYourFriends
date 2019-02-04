@@ -9,6 +9,7 @@ import { BrowserStorageService } from '../storage.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
+/** Class representing a LoginComponent. */
 export class LoginComponent implements OnInit {
 
   User = new User;
@@ -22,7 +23,11 @@ export class LoginComponent implements OnInit {
     private router: Router, 
     private storage: BrowserStorageService) {   
   }
-
+  /**
+  * Method checks if there is a user that is currently logged in
+  * If there is a user logged in the router navigated to the dashboard (Page where friends are displayed)
+  * @author Christina Senger
+  */
   ngOnInit() {
     //test if user is current logged in
     const user = this.storage.get('token');
@@ -31,7 +36,11 @@ export class LoginComponent implements OnInit {
     } 
   }
     
-  //login
+  /**
+  * Method that is called by clicking login in the html, loginService gets called with the
+  * parameters that are typed in by the user into the login form
+  * @author Christina Senger
+  */
   getUserLogged(): void {
     this.loginService.doLogin(this.login.email, this.login.password)
   }

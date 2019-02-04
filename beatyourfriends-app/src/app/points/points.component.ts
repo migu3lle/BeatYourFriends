@@ -12,6 +12,8 @@ import { MessageService } from '../message.service'
   templateUrl: './points.component.html',
   styleUrls: ['./points.component.css']
 })
+
+/** Class representing a PointsComponent. */
 export class PointsComponent implements OnInit {
 
   points: Points = {
@@ -21,11 +23,24 @@ export class PointsComponent implements OnInit {
   };
   activeGames: Game[];
 
+  /**
+    * Create a PointsComponent.
+    * @param {MessageService} messageService - The injected messageService object.
+    * @param {PointsService} pointsService - The injected pointsService object.
+    * @param {BrowserStorageService} storageService - The injected browserStorageService object.
+    * @param {Router} router - The injected router object.
+    * @author Felix Gaggl, Michael Gundacker
+  */
   constructor(private pointsService: PointsService,
     private storageService: BrowserStorageService,
     private router: Router,
     private messageService: MessageService) { }
 
+  /**
+    * Called on init of points component
+    * Loads the games assigned to the current player and does some styling
+    * @author Felix Gaggl, Michael Gundacker
+  */
   ngOnInit() {
     let email = this.storageService.get('email');
     /*this.pointsService.getPoints(email)
@@ -76,6 +91,12 @@ export class PointsComponent implements OnInit {
     });
   }
 
+  /**
+    * Checks if it is the current player's turn
+    * @param {gameId} number - The gameID to check the player's status for
+    * @returns {Promise} - Promise resolves on current player's turn, rejects if not
+    * @author Michael Gundacker
+  */
   checkGameActive(gameId){
     return new Promise((resolve, reject) => {
       let myPlayerId = this.storageService.get('id');
@@ -101,6 +122,12 @@ export class PointsComponent implements OnInit {
     })
   }
 
+  /**
+    * Check if given game is already finished (based on round count)
+    * @param {gameId} number - The gameID to check the status for
+    * @returns {Promise} - Promise resolves on game not finished, rejects if finished
+    * @author Michael Gundacker
+  */
   checkGameNotFinished(gameId){
     return new Promise((resolve, reject) => {
       let myPlayerId = this.storageService.get('id');
@@ -119,6 +146,13 @@ export class PointsComponent implements OnInit {
     })
   }
 
+  /**
+    * Starts a turn for the current player if allowed
+    * The player chooses the game from points component, 
+    * then we navigate to quiz component if player is allowed to play
+    * @param {gameId} number - The id of the game the player wants to play
+    * @author Felix Gaggl, Michael Gundacker
+  */
   playGame(gameId, player1){
     this.checkGameNotFinished(gameId)
       .then(this.checkGameActive.bind(this))

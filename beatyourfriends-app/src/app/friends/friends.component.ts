@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css']
 })
-/** class representing a FriendsComponent*/
+/** Class representing a FriendsComponent. */
 export class FriendsComponent implements OnInit {
 
   users: User[]; 
@@ -54,7 +54,13 @@ export class FriendsComponent implements OnInit {
       }
     );
   }
-
+/**
+  * Method gets called by clicking onto one displayed friend in the html
+  * The method calls the gameServive.createGameForUser, we wait for the result of this call and
+  * after a result is returned we navigate to the quiz component
+  * @param {String} id
+  * @author Felix Gaggl
+  */
   requestNewGame(id: String){
     console.log("requesting new game!");
     console.log(id);
