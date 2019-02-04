@@ -1,4 +1,7 @@
-//user model
+ /**
+  * Class User, which represents the user model
+  * @author Christina Senger
+  */  
 export class User {
     userid: number;
     email: string;
