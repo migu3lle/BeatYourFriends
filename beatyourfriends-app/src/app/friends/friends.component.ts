@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css']
 })
+/** class representing a */
 export class FriendsComponent implements OnInit {
 
   users: User[]; 
@@ -18,10 +19,22 @@ export class FriendsComponent implements OnInit {
 
   constructor(private userService: UserService, private storgageService: BrowserStorageService, private gameService: GameService, private router: Router) { }
 
+  
+  /**
+  * Method calls the userService to get all the possible users, after the result is returned
+  * the user that is logged in gets removed from this array and the result is saved into shownUsers[]
+  * @author Christina Senger
+  */
   ngOnInit() {
     this.getAllUsers();
   }
   
+  
+  /**
+  * Method calls the userService to get all the possible users, after the result is returned
+  * the user that is logged in gets removed from this array and the result is saved into shownUsers[]
+  * @author Christina Senger
+  */
   getAllUsers() {
 
     //fetchh from db
