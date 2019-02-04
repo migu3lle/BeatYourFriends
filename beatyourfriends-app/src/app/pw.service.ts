@@ -7,6 +7,13 @@ import { User } from './user';
 @Injectable({
   providedIn: 'root'
 })
+ /**
+  * Class PwService with api requests to get mail or token from db and to update users password
+  * @aram email - email from user input
+  * @aram password - assword from user input
+  * @param token - passtoken from current url
+  * @author Christina Senger
+  */  
 export class PwService {
 
   constructor(private http: HttpClient) { }
