@@ -1,6 +1,6 @@
 /**
-@author Christina Senger
-@description inits database with data from config.json
+* @description inits database with data from config.json
+* @author Christina Senger
 */
 let cfg = require('./config.json')
 let mysql = require('mysql');
