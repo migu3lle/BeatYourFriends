@@ -10,10 +10,10 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 
 /**
-@author Christina Senger
-@description selects a user from db which email and password are those from request body
+* @description selects a user from db which email and password are those from request body
 creates token using module cryption
 stores token into table token (valid for 24h)
+* @author Christina Senger
 */
 // ----------------> login <--------------------------------//
 
@@ -68,9 +68,9 @@ console.log(token);
 
 
 /**
-@author Christina Senger
-@description CRUD functions to get all or one specific user by email, to update or delete user
+* @description CRUD functions to get all or one specific user by email, to update or delete user
 additionally function to get email by id
+* @author Christina Senger
 */
 // --------------------> Profil Functions <------------------//
 
@@ -172,19 +172,15 @@ router.delete('/user/:email', function (req, res) {
 });
 
 
-/**
-@author Christina Senger
-@description function to send mail checks if user with given email exists in db
-then create a passtoken with module crypto and store to table tokens
-send mail with nodemailer module from my mail adress to users mail with a link to password reset site containing passtoken
 
-function to reset password checks if passtoken is still valid
-if it is valid it shows to pw-change site
-then update password with the given values
-*/
 //------------------------> Password Reset <------------------//
 
-//send reset mail
+/**
+* @description function to send mail checks if user with given email exists in db
+then create a passtoken with module crypto and store to table tokens
+send mail with nodemailer module from my mail adress to users mail with a link to password reset site containing passtoken
+* @author Christina Senger
+*/
 // --- check if email exists for a user in a db
 router.get('/reset/:email', function (req, res) {
 	let email = req.params.email;
@@ -255,7 +251,13 @@ router.get('/reset/:email', function (req, res) {
 	});
 });
 
-//password reset
+/**
+* @description function to reset password checks if passtoken is still valid
+if it is valid it shows to pw-change site
+then update password with the given values
+send mail with nodemailer module from my mail adress to users mail with a link to password reset site containing passtoken
+* @author Christina Senger
+*/
 // --- check if user can reset password
 router.get('/res/:token', function (req,res ) {
 	let resettoken = req.params.token;
@@ -304,7 +306,10 @@ router.put('/change', function (req, res) {
 
 // -----------------> Get Points <-------------------//
 
-//get points from db
+/**
+* @description not used
+* @author Christina Senger
+*/
 router.get('/stat/:email', function (req, res) {
 	let email = req.params.email;
 	let query = `
@@ -324,7 +329,11 @@ router.get('/stat/:email', function (req, res) {
 
 // ------------------> Game <-------------------//
 
-//get player 2s game status
+/**
+* @description get player 2s game status
+* @param gameId - current game id
+* @author Christina Senger
+*/
 router.get('/players/:gameid', function (req, res) {
 		let gameId = req.params.gameid;
 		console.log(gameId);
@@ -342,7 +351,11 @@ router.get('/players/:gameid', function (req, res) {
 });
 
 
-//get player 1s game status
+/**
+* @description get player 1s game status
+* @param gameId - current game id
+* @author Christina Senger
+*/
 router.get('/player/:gameid', function (req, res) {
 	let gameId = req.params.gameid;
 	console.log(gameId);
@@ -360,7 +373,12 @@ router.get('/player/:gameid', function (req, res) {
 });
 
 
-//update game status
+
+/**
+* @description change game status either to 0 or 1
+* @param gameId - current game id
+* @author Christina Senger
+*/
 router.put('/player/:gameid', function (req, res) {
 	let gameId = req.body.gameid;
 	console.log("gameID is: " + gameId);
@@ -400,7 +418,12 @@ router.put('/player/:gameid', function (req, res) {
 });
 
 
-//get Questions from db
+
+/**
+* @description get Questions from either from fragen (player1) or playquest (player2) and save fragen to playquest
+* @param counter - question index
+* @author Christina Senger
+*/
 router.post('/question/:counter', function (req, res) {
 	const counter = req.params.counter;
 	let gamesid = req.body.gameid;
@@ -493,7 +516,12 @@ router.post('/question/:counter', function (req, res) {
 });
 
 
-//get Answer from db
+/**
+* @description get right Answer to question from db and increment users points if answer was correct
+* @param Richtig - number of right answer
+* @param token - question id
+* @author Christina Senger
+*/
 router.get('/answer/:token', function (req, res) {
 	let token = req.params.token;
 	let query = `
@@ -552,7 +580,10 @@ router.get('/points/:gameid', function (req, res) {
 });
 
 
-//get winner
+/**
+* @description get winner - not used
+* @author Christina Senger
+*/
 router.post('/winner', function (req, res) {
 	let gameId = req.body.gameid;
 	let query = `
@@ -569,7 +600,10 @@ router.post('/winner', function (req, res) {
 });
 
 
-//set player1 as winner
+/**
+* @description set player1 as winner - not used
+* @author Christina Senger
+*/
 router.put('/won', function (req, res) {
 	let email1 = req.body.email1;
 	let email2 = req.body.email2;
@@ -590,7 +624,10 @@ router.put('/won', function (req, res) {
 });
 
 
-//set equal
+/**
+* @description set equality - not used
+* @author Christina Senger
+*/
 router.put('/equal', function (req, res) {
 	let email1 = req.body.email1;
 	let email2 = req.body.email2;
@@ -611,7 +648,10 @@ router.put('/equal', function (req, res) {
 });
 
 
-//set player2 as winner
+/**
+* @description set player2 as winner - not used
+* @author Christina Senger
+*/
 router.put('/loose', function (req, res) {
 	let email1 = req.body.email1;
 	let email2 = req.body.email2;
