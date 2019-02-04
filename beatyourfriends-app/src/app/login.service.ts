@@ -20,7 +20,13 @@ export class LoginService {
   }
 
   user: User;
-   //login
+  
+  /**
+  * Checks if user with given mail or password exists, then navigate to dashboar and set session storage
+  * @param username - users mail from input
+  * @param password - users password from input
+  * @author Christina Senger
+  */
   doLogin(username: string, password: string) {
 
    const loginUrl = 'http://localhost:3000/api/loginroutes';
@@ -30,7 +36,6 @@ export class LoginService {
   .subscribe(result => {
     this.user = result;
 
-    //navigate to dashboar and set session storage
     this.router.navigate(['/dashboard']);
     this.storage.set('token', JSON.stringify(this.user));
     let email = this.user.email;
@@ -45,7 +50,10 @@ export class LoginService {
   });
 }
 
-    //logout
+  /**
+ * Logout and remove token from db and navigate to login site
+ * @author Christina Senger
+ */
   doLogout(): void {
     this.storage.remove('token');
     this.router.navigate(['/login']);
@@ -55,14 +63,12 @@ export class LoginService {
  * Handle Http operation that failed.
  * @param operation - name of the operation that failed
  * @param result - optional value to return as the observable result
+ * @author Christina Senger
  */
 private handleError<T> (operation = 'operation', result?: T) {
   return (error: any): Observable<T> => {
 
-    console.error('Error doing Login: ' + error); // log to console instead
-
-    // TODO: better job of transforming error for user consumption
-    //this.log(`${operation} failed: ${error.message}`);
+    console.error('Error doing Login: ' + error); // log to console
 
     // Let the app keep running by returning an empty result.
     return null;
