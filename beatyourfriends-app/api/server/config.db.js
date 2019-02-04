@@ -1,31 +1,7 @@
-/*const env = require('./env.js');
- 
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(env.database, env.username, env.password, {
-  host: env.host,
-  dialect: env.dialect,
-  operatorsAliases: false,
- 
-  pool: {
-    max: env.max,
-    min: env.pool.min,
-    acquire: env.pool.acquire,
-    idle: env.pool.idle
-  }
-});
- 
-const db = {};
- 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
- 
-//Models/tables
-db.users = require('../model/model.js')(sequelize, Sequelize);
- 
- 
-module.exports = db;*/
-
-
+/**
+@author Christina Senger
+@description inits database with data from config.json
+*/
 let cfg = require('./config.json')
 let mysql = require('mysql');
 
@@ -50,7 +26,7 @@ let initDb = new Promise((resolve, reject) => {
 
 function getDb() {
     if (!_db) {
-        console.log("Db has not been initialized. Please call init first.");
+        console.log("Db has not been initialized.");
         return;
     } else {return _db;}
 }
