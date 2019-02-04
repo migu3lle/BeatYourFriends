@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css']
 })
-/** class representing a */
+/** class representing a FriendsComponent*/
 export class FriendsComponent implements OnInit {
 
   users: User[]; 
@@ -21,10 +21,9 @@ export class FriendsComponent implements OnInit {
 
   
   /**
-  * Method calls the userService to get all the possible users, after the result is returned
-  * the user that is logged in gets removed from this array and the result is saved into shownUsers[]
+  * Method gets called on initialisation of the page, calls the method getAllUsers()
   * @author Christina Senger
-  */
+  */ 
   ngOnInit() {
     this.getAllUsers();
   }
