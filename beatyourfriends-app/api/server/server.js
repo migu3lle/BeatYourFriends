@@ -1,9 +1,9 @@
 /**
-@author Christina Senger
-@description sets an express server listening on port 3000
+* @description sets an express server listening on port 3000
 all origins allowed;
 sets controller.js as route for requests
 initializes db with function initDB fro file config.db
+* @author Christina Senger
 */
 
 //File imports
