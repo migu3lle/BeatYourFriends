@@ -26,6 +26,11 @@ export class PasswordChangeComponent implements OnInit {
     private router: Router,
     private storageService: BrowserStorageService) { }
 
+  /**
+  * check if token is valid and then navigate
+  * @param token - passtoken from url
+  * @author Christina Senger
+  */
   ngOnInit() {
     //split token from url
     let pathArry = window.location.pathname.split('/');
@@ -48,6 +53,10 @@ export class PasswordChangeComponent implements OnInit {
     });
   }
 
+  /**
+  * check if both input values are the same
+  * @author Christina Senger
+  */
   checkPassw() {
     //if both values are the same call pwService
     if (this.passw.pass === this.passw.confirm) {
